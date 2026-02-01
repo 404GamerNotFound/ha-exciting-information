@@ -1,13 +1,13 @@
 {
   "title": "PV Exciting Information",
   "config": {
+    "error": {
+      "entity_not_found": "Die ausgewählte Entität existiert nicht. Bitte wähle eine vorhandene Sensor-Entität."
+    },
     "step": {
       "user": {
         "title": "Solar-EV-Information",
         "description": "Wähle deinen PV-Leistungs- oder Energiesensor (kW/kWh) aus und gib den Verbrauch des E-Autos an.",
-        "error": {
-          "entity_not_found": "Die ausgewählte Entität existiert nicht. Bitte wähle eine vorhandene Sensor-Entität."
-        },
         "data": {
           "pv_entity_id": "PV-Leistungs-/Energieentität",
           "grid_import_entity_id": "Netzbezug-Energieentität (optional)",
@@ -18,12 +18,12 @@
     }
   },
   "options": {
+    "error": {
+      "entity_not_found": "Die ausgewählte Entität existiert nicht. Bitte wähle eine vorhandene Sensor-Entität."
+    },
     "step": {
       "init": {
         "title": "Einstellungen aktualisieren",
-        "error": {
-          "entity_not_found": "Die ausgewählte Entität existiert nicht. Bitte wähle eine vorhandene Sensor-Entität."
-        },
         "data": {
           "pv_entity_id": "PV-Leistungs-/Energieentität",
           "grid_import_entity_id": "Netzbezug-Energieentität (optional)",
