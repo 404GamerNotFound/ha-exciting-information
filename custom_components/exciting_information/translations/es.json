@@ -5,7 +5,7 @@
       "user": {
         "title": "Información solar para VE",
         "description": "Selecciona el sensor de potencia o energía FV (kW/kWh) y define el consumo del vehículo eléctrico.",
-        "errors": {
+        "error": {
           "entity_not_found": "La entidad seleccionada no existe. Elige una entidad de sensor existente."
         },
         "data": {
@@ -21,7 +21,7 @@
     "step": {
       "init": {
         "title": "Actualizar ajustes",
-        "errors": {
+        "error": {
           "entity_not_found": "La entidad seleccionada no existe. Elige una entidad de sensor existente."
         },
         "data": {

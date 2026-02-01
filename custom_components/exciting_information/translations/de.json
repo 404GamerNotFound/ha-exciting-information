@@ -5,7 +5,7 @@
       "user": {
         "title": "Solar-EV-Information",
         "description": "Wähle deinen PV-Leistungs- oder Energiesensor (kW/kWh) aus und gib den Verbrauch des E-Autos an.",
-        "errors": {
+        "error": {
           "entity_not_found": "Die ausgewählte Entität existiert nicht. Bitte wähle eine vorhandene Sensor-Entität."
         },
         "data": {
@@ -21,7 +21,7 @@
     "step": {
       "init": {
         "title": "Einstellungen aktualisieren",
-        "errors": {
+        "error": {
           "entity_not_found": "Die ausgewählte Entität existiert nicht. Bitte wähle eine vorhandene Sensor-Entität."
         },
         "data": {

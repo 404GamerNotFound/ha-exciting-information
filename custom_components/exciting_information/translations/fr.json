@@ -5,7 +5,7 @@
       "user": {
         "title": "Informations EV solaire",
         "description": "Sélectionnez votre capteur de puissance ou d'énergie PV (kW/kWh) et définissez la consommation du véhicule électrique.",
-        "errors": {
+        "error": {
           "entity_not_found": "L'entité sélectionnée n'existe pas. Choisissez une entité de capteur existante."
         },
         "data": {
@@ -21,7 +21,7 @@
     "step": {
       "init": {
         "title": "Mettre à jour les paramètres",
-        "errors": {
+        "error": {
           "entity_not_found": "L'entité sélectionnée n'existe pas. Choisissez une entité de capteur existante."
         },
         "data": {
