@@ -1,5 +1,7 @@
 # PV Exciting Information
 
+![PV Exciting Information logo](images/logo/logo.png)
+
 A Home Assistant custom integration (HACS) that estimates how far an EV could drive based on your current PV power or energy and your vehicle's consumption.
 
 ## README in supported languages
@@ -32,6 +34,9 @@ Distance (km) = (PV energy in kWh / consumption in kWh/100 km) * 100
 ```
 
 If a power sensor is selected, the integration assumes the current PV power is available for one hour.
+
+### Beispielrechnung (Screenshot)
+![Beispielrechnung](images/screenshots/km_eCar.png)
 
 ## Sensors (power vs. energy)
 This integration accepts either:
