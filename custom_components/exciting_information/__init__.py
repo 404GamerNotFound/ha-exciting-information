@@ -1,4 +1,4 @@
-"""The Exciting Information integration."""
+"""The PV Exciting Information integration."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ def _get_entry_data(entry: ConfigEntry) -> dict[str, str | float]:
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Exciting Information from a config entry."""
+    """Set up PV Exciting Information from a config entry."""
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = _get_entry_data(entry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True

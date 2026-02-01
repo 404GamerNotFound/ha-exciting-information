@@ -1,4 +1,4 @@
-"""Sensor platform for Exciting Information."""
+"""Sensor platform for PV Exciting Information."""
 
 from __future__ import annotations
 
@@ -497,7 +497,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities,
 ) -> None:
-    """Set up Exciting Information sensors."""
+    """Set up PV Exciting Information sensors."""
     description = SolarDistanceSensorDescription(
         key="distance",
         translation_key="distance",

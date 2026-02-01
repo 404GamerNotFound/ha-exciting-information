@@ -1,4 +1,4 @@
-# Exciting Information
+# PV Exciting Information
 
 A Home Assistant custom integration (HACS) that estimates how far an EV could drive based on your current PV power or energy and your vehicle's consumption.
 
@@ -16,7 +16,7 @@ A Home Assistant custom integration (HACS) that estimates how far an EV could dr
 
 ## Installation (HACS)
 1. Add this repository as a custom repository in HACS.
-2. Install **Exciting Information**.
+2. Install **PV Exciting Information**.
 3. Restart Home Assistant.
 4. Add the integration via **Settings → Devices & Services**.
 

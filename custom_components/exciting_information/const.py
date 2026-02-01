@@ -1,4 +1,4 @@
-"""Constants for the Exciting Information integration."""
+"""Constants for the PV Exciting Information integration."""
 
 DOMAIN = "exciting_information"
 
