@@ -27,6 +27,15 @@
     "sensor": {
       "distance": {
         "name": "Solare Reichweite"
+      },
+      "message": {
+        "name": "Solare Fahrnachricht"
+      },
+      "metric_message": {
+        "name": "Solare Kennzahlen"
+      },
+      "coffee_cups": {
+        "name": "Solare Kaffee"
       }
     }
   }
