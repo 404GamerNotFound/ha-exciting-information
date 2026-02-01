@@ -4,9 +4,9 @@
     "step": {
       "user": {
         "title": "Información solar para VE",
-        "description": "Selecciona el sensor de potencia FV (kW) y define el consumo del vehículo eléctrico.",
+        "description": "Selecciona el sensor de potencia o energía FV (kW/kWh) y define el consumo del vehículo eléctrico.",
         "data": {
-          "pv_entity_id": "Entidad de potencia FV",
+          "pv_entity_id": "Entidad de potencia/energía FV",
           "consumption_kwh_per_100km": "Consumo del VE (kWh/100 km)"
         }
       }
@@ -17,7 +17,7 @@
       "init": {
         "title": "Actualizar ajustes",
         "data": {
-          "pv_entity_id": "Entidad de potencia FV",
+          "pv_entity_id": "Entidad de potencia/energía FV",
           "consumption_kwh_per_100km": "Consumo del VE (kWh/100 km)"
         }
       }

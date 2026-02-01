@@ -4,9 +4,9 @@
     "step": {
       "user": {
         "title": "Informations EV solaire",
-        "description": "Sélectionnez votre capteur de puissance PV (kW) et définissez la consommation du véhicule électrique.",
+        "description": "Sélectionnez votre capteur de puissance ou d'énergie PV (kW/kWh) et définissez la consommation du véhicule électrique.",
         "data": {
-          "pv_entity_id": "Entité de puissance PV",
+          "pv_entity_id": "Entité de puissance/énergie PV",
           "consumption_kwh_per_100km": "Consommation du VE (kWh/100 km)"
         }
       }
@@ -17,7 +17,7 @@
       "init": {
         "title": "Mettre à jour les paramètres",
         "data": {
-          "pv_entity_id": "Entité de puissance PV",
+          "pv_entity_id": "Entité de puissance/énergie PV",
           "consumption_kwh_per_100km": "Consommation du VE (kWh/100 km)"
         }
       }
