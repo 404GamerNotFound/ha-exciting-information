@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
+from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -9,6 +12,16 @@ from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
+CARD_URL_PATH = "/pv-exciting-information-card.js"
+CARD_RESOURCE_PATH = Path(__file__).parent / "www" / "pv-exciting-information-card.js"
+
+
+async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+    """Set up PV Exciting Information from configuration.yaml."""
+    hass.http.register_static_path(
+        StaticPathConfig(CARD_URL_PATH, str(CARD_RESOURCE_PATH), True)
+    )
+    return True
 
 
 def _get_entry_data(entry: ConfigEntry) -> dict[str, str | float]:
