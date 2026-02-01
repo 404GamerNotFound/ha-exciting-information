@@ -8,5 +8,8 @@
   "documentation": "https://github.com/404GamerNotFound/ha-exciting-information",
   "iot_class": "calculated",
   "issue_tracker": "https://github.com/404GamerNotFound/ha-exciting-information/issues",
+  "dependencies": [
+    "http"
+  ],
   "version": "0.1.1"
 }
