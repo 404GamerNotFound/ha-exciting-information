@@ -7,6 +7,8 @@
         "description": "Selecciona el sensor de potencia o energía FV (kW/kWh) y define el consumo del vehículo eléctrico.",
         "data": {
           "pv_entity_id": "Entidad de potencia/energía FV",
+          "grid_import_entity_id": "Entidad de energía importada de la red (opcional)",
+          "grid_export_entity_id": "Entidad de energía exportada a la red (opcional)",
           "consumption_kwh_per_100km": "Consumo del VE (kWh/100 km)"
         }
       }
@@ -18,6 +20,8 @@
         "title": "Actualizar ajustes",
         "data": {
           "pv_entity_id": "Entidad de potencia/energía FV",
+          "grid_import_entity_id": "Entidad de energía importada de la red (opcional)",
+          "grid_export_entity_id": "Entidad de energía exportada a la red (opcional)",
           "consumption_kwh_per_100km": "Consumo del VE (kWh/100 km)"
         }
       }
@@ -39,6 +43,27 @@
       },
       "fuel_saved_liters": {
         "name": "Ahorro de gasolina solar"
+      },
+      "co2_saved_kg": {
+        "name": "Ahorro de CO₂ solar"
+      },
+      "self_consumed_kwh": {
+        "name": "Energía solar autoconsumida"
+      },
+      "self_consumption_ratio": {
+        "name": "Tasa de autoconsumo solar"
+      },
+      "grid_import_kwh": {
+        "name": "Energía importada de la red"
+      },
+      "grid_export_kwh": {
+        "name": "Energía exportada a la red"
+      },
+      "grid_net_kwh": {
+        "name": "Energía neta de la red"
+      },
+      "autarky_ratio": {
+        "name": "Tasa de autosuficiencia"
       },
       "lisbon_berlin_trips": {
         "name": "Viajes solares Lisboa–Berlín"

@@ -7,6 +7,8 @@
         "description": "Sélectionnez votre capteur de puissance ou d'énergie PV (kW/kWh) et définissez la consommation du véhicule électrique.",
         "data": {
           "pv_entity_id": "Entité de puissance/énergie PV",
+          "grid_import_entity_id": "Entité énergie importée du réseau (optionnel)",
+          "grid_export_entity_id": "Entité énergie exportée vers le réseau (optionnel)",
           "consumption_kwh_per_100km": "Consommation du VE (kWh/100 km)"
         }
       }
@@ -18,6 +20,8 @@
         "title": "Mettre à jour les paramètres",
         "data": {
           "pv_entity_id": "Entité de puissance/énergie PV",
+          "grid_import_entity_id": "Entité énergie importée du réseau (optionnel)",
+          "grid_export_entity_id": "Entité énergie exportée vers le réseau (optionnel)",
           "consumption_kwh_per_100km": "Consommation du VE (kWh/100 km)"
         }
       }
@@ -39,6 +43,27 @@
       },
       "fuel_saved_liters": {
         "name": "Économie de carburant solaire"
+      },
+      "co2_saved_kg": {
+        "name": "Économie de CO₂ solaire"
+      },
+      "self_consumed_kwh": {
+        "name": "Énergie solaire autoconsommée"
+      },
+      "self_consumption_ratio": {
+        "name": "Taux d’autoconsommation solaire"
+      },
+      "grid_import_kwh": {
+        "name": "Énergie importée du réseau"
+      },
+      "grid_export_kwh": {
+        "name": "Énergie exportée vers le réseau"
+      },
+      "grid_net_kwh": {
+        "name": "Énergie nette du réseau"
+      },
+      "autarky_ratio": {
+        "name": "Taux d’autarcie"
       },
       "lisbon_berlin_trips": {
         "name": "Trajets solaires Lisbonne–Berlin"

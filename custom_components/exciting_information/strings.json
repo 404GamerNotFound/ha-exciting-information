@@ -7,6 +7,8 @@
         "description": "Select your PV power or energy sensor (kW/kWh) and set the EV consumption.",
         "data": {
           "pv_entity_id": "PV power/energy entity",
+          "grid_import_entity_id": "Grid import energy entity (optional)",
+          "grid_export_entity_id": "Grid export energy entity (optional)",
           "consumption_kwh_per_100km": "EV consumption (kWh/100 km)"
         }
       }
@@ -18,6 +20,8 @@
         "title": "Update settings",
         "data": {
           "pv_entity_id": "PV power/energy entity",
+          "grid_import_entity_id": "Grid import energy entity (optional)",
+          "grid_export_entity_id": "Grid export energy entity (optional)",
           "consumption_kwh_per_100km": "EV consumption (kWh/100 km)"
         }
       }
@@ -39,6 +43,27 @@
       },
       "fuel_saved_liters": {
         "name": "Solar fuel savings"
+      },
+      "co2_saved_kg": {
+        "name": "Solar CO2 savings"
+      },
+      "self_consumed_kwh": {
+        "name": "Solar self-consumed energy"
+      },
+      "self_consumption_ratio": {
+        "name": "Solar self-consumption rate"
+      },
+      "grid_import_kwh": {
+        "name": "Grid import energy"
+      },
+      "grid_export_kwh": {
+        "name": "Grid export energy"
+      },
+      "grid_net_kwh": {
+        "name": "Net grid energy"
+      },
+      "autarky_ratio": {
+        "name": "Energy autarky rate"
       },
       "lisbon_berlin_trips": {
         "name": "Solar Lisbon–Berlin trips"

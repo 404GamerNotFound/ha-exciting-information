@@ -7,6 +7,8 @@
         "description": "Wähle deinen PV-Leistungs- oder Energiesensor (kW/kWh) aus und gib den Verbrauch des E-Autos an.",
         "data": {
           "pv_entity_id": "PV-Leistungs-/Energieentität",
+          "grid_import_entity_id": "Netzbezug-Energieentität (optional)",
+          "grid_export_entity_id": "Netzeinspeisung-Energieentität (optional)",
           "consumption_kwh_per_100km": "E-Auto-Verbrauch (kWh/100 km)"
         }
       }
@@ -18,6 +20,8 @@
         "title": "Einstellungen aktualisieren",
         "data": {
           "pv_entity_id": "PV-Leistungs-/Energieentität",
+          "grid_import_entity_id": "Netzbezug-Energieentität (optional)",
+          "grid_export_entity_id": "Netzeinspeisung-Energieentität (optional)",
           "consumption_kwh_per_100km": "E-Auto-Verbrauch (kWh/100 km)"
         }
       }
@@ -39,6 +43,27 @@
       },
       "fuel_saved_liters": {
         "name": "Solare Benzinersparnis"
+      },
+      "co2_saved_kg": {
+        "name": "Solare CO₂-Einsparung"
+      },
+      "self_consumed_kwh": {
+        "name": "Solare Eigenverbrauchsenergie"
+      },
+      "self_consumption_ratio": {
+        "name": "Solare Eigenverbrauchsquote"
+      },
+      "grid_import_kwh": {
+        "name": "Netzbezug-Energie"
+      },
+      "grid_export_kwh": {
+        "name": "Netzeinspeisung-Energie"
+      },
+      "grid_net_kwh": {
+        "name": "Netto-Netzenergie"
+      },
+      "autarky_ratio": {
+        "name": "Autarkiequote"
       },
       "lisbon_berlin_trips": {
         "name": "Solare Lissabon–Berlin-Fahrten"
