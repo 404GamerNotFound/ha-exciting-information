@@ -31,11 +31,20 @@
       "message": {
         "name": "Solare Fahrnachricht"
       },
-      "metric_message": {
-        "name": "Solare Kennzahlen"
+      "earth_rounds": {
+        "name": "Solare Erdumrundungen"
       },
       "coffee_cups": {
         "name": "Solare Kaffee"
+      },
+      "fuel_saved_liters": {
+        "name": "Solare Benzinersparnis"
+      },
+      "lisbon_berlin_trips": {
+        "name": "Solare Lissabon–Berlin-Fahrten"
+      },
+      "nyc_mexico_trips": {
+        "name": "Solare New York–Mexiko-Stadt-Fahrten"
       }
     }
   }

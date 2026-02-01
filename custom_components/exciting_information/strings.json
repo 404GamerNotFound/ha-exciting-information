@@ -31,11 +31,20 @@
       "message": {
         "name": "Solar driving message"
       },
-      "metric_message": {
-        "name": "Solar driving metrics"
+      "earth_rounds": {
+        "name": "Solar trips around Earth"
       },
       "coffee_cups": {
         "name": "Solar coffee cups"
+      },
+      "fuel_saved_liters": {
+        "name": "Solar fuel savings"
+      },
+      "lisbon_berlin_trips": {
+        "name": "Solar Lisbon–Berlin trips"
+      },
+      "nyc_mexico_trips": {
+        "name": "Solar New York–Mexico City trips"
       }
     }
   }

@@ -29,6 +29,25 @@ def _schema(default_consumption: float) -> vol.Schema:
     )
 
 
+def _options_schema(default_consumption: float, default_pv_entity_id: str) -> vol.Schema:
+    return vol.Schema(
+        {
+            vol.Optional(CONF_PV_ENTITY_ID, default=default_pv_entity_id): selector.EntitySelector(
+                selector.EntitySelectorConfig(domain="sensor")
+            ),
+            vol.Required(CONF_CONSUMPTION, default=default_consumption): selector.NumberSelector(
+                selector.NumberSelectorConfig(
+                    min=1,
+                    max=100,
+                    step=0.1,
+                    unit_of_measurement="kWh/100 km",
+                    mode=selector.NumberSelectorMode.BOX,
+                )
+            ),
+        }
+    )
+
+
 class ExcitingInformationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Exciting Information."""
 
@@ -63,12 +82,19 @@ class ExcitingInformationOptionsFlow(config_entries.OptionsFlow):
     async def async_step_init(self, user_input: dict | None = None):
         """Manage options."""
         if user_input is not None:
+            if CONF_PV_ENTITY_ID not in user_input:
+                user_input[CONF_PV_ENTITY_ID] = self._entry.options.get(
+                    CONF_PV_ENTITY_ID, self._entry.data[CONF_PV_ENTITY_ID]
+                )
             return self.async_create_entry(title="", data=user_input)
 
         default_consumption = self._entry.options.get(
             CONF_CONSUMPTION, self._entry.data.get(CONF_CONSUMPTION, DEFAULT_CONSUMPTION)
         )
+        default_pv_entity_id = self._entry.options.get(
+            CONF_PV_ENTITY_ID, self._entry.data[CONF_PV_ENTITY_ID]
+        )
         return self.async_show_form(
             step_id="init",
-            data_schema=_schema(default_consumption),
+            data_schema=_options_schema(default_consumption, default_pv_entity_id),
         )
