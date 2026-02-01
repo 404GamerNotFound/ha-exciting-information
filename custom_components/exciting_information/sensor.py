@@ -96,6 +96,22 @@ class SolarDistanceSensorDescription(SensorEntityDescription):
     """Describes the solar distance sensor."""
 
 
+@dataclass(frozen=True)
+class SolarMetrics:
+    """Calculated solar metrics."""
+
+    pv_kwh: float
+    source_key: str
+    distance_value: float
+    message: str
+    metric_message: str
+    earth_rounds: float
+    coffee_cups: float
+    fuel_saved_liters: float
+    lisbon_berlin_trips: float
+    nyc_mexico_trips: float
+
+
 def _get_language(hass: HomeAssistant) -> str:
     language = hass.config.language or "en"
     return language.split("-")[0]
@@ -113,11 +129,34 @@ async def async_setup_entry(
         icon="mdi:car-electric",
         native_unit_of_measurement="km",
     )
-    async_add_entities([SolarDistanceSensor(hass, entry, description)])
+    message_description = SolarDistanceSensorDescription(
+        key="message",
+        translation_key="message",
+        icon="mdi:message-text",
+    )
+    metric_message_description = SolarDistanceSensorDescription(
+        key="metric_message",
+        translation_key="metric_message",
+        icon="mdi:message-text-outline",
+    )
+    coffee_description = SolarDistanceSensorDescription(
+        key="coffee_cups",
+        translation_key="coffee_cups",
+        icon="mdi:coffee",
+        native_unit_of_measurement="cups",
+    )
+    async_add_entities(
+        [
+            SolarDistanceSensor(hass, entry, description),
+            SolarMessageSensor(hass, entry, message_description),
+            SolarMetricMessageSensor(hass, entry, metric_message_description),
+            SolarCoffeeSensor(hass, entry, coffee_description),
+        ]
+    )
 
 
-class SolarDistanceSensor(SensorEntity):
-    """Calculate how far an EV could drive from solar energy."""
+class SolarInfoSensor(SensorEntity):
+    """Base class for solar information sensors."""
 
     _attr_has_entity_name = True
 
@@ -129,7 +168,6 @@ class SolarDistanceSensor(SensorEntity):
     ) -> None:
         self.entity_description = description
         self._entry = entry
-        self._attr_unique_id = f"{entry.entry_id}_distance"
         self._attr_extra_state_attributes: dict[str, Any] = {}
         self._attr_available = False
         self._pv_entity_id = entry.options.get(CONF_PV_ENTITY_ID, entry.data[CONF_PV_ENTITY_ID])
@@ -160,23 +198,14 @@ class SolarDistanceSensor(SensorEntity):
 
     def _update_from_state(self) -> None:
         state = self._hass.states.get(self._pv_entity_id)
-        self._attr_available = False
         if state is None or state.state in ("unknown", "unavailable"):
-            self._attr_native_value = None
-            self._attr_extra_state_attributes = {
-                "pv_entity_id": self._pv_entity_id,
-                "consumption_kwh_per_100km": self._consumption,
-            }
+            self._set_unavailable()
             return
 
         try:
             pv_value = float(state.state)
         except ValueError:
-            self._attr_native_value = None
-            self._attr_extra_state_attributes = {
-                "pv_entity_id": self._pv_entity_id,
-                "consumption_kwh_per_100km": self._consumption,
-            }
+            self._set_unavailable()
             return
 
         unit = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
@@ -194,13 +223,11 @@ class SolarDistanceSensor(SensorEntity):
             pv_kwh = pv_value
             source_key = "power"
 
-        distance = (pv_kwh / self._consumption) * 100
-        distance_value = round(distance, 2)
-        self._attr_native_value = distance_value
-        self._attr_available = True
         template = MESSAGE_TEMPLATES.get(self._language, MESSAGE_TEMPLATES["en"])
         metric_template = METRIC_TEMPLATES.get(self._language, METRIC_TEMPLATES["en"])
         source_label = SOURCE_LABELS.get(self._language, SOURCE_LABELS["en"])[source_key]
+        distance = (pv_kwh / self._consumption) * 100
+        distance_value = round(distance, 2)
         message = template.format(
             consumption=self._consumption,
             distance=distance_value,
@@ -223,16 +250,63 @@ class SolarDistanceSensor(SensorEntity):
             nyc_mexico_trips=nyc_mexico_trips,
             nyc_mexico_km=NEW_YORK_MEXICO_CITY_KM,
         )
+        metrics = SolarMetrics(
+            pv_kwh=pv_kwh,
+            source_key=source_key,
+            distance_value=distance_value,
+            message=message,
+            metric_message=metric_message,
+            earth_rounds=earth_rounds,
+            coffee_cups=coffee_cups,
+            fuel_saved_liters=fuel_saved_liters,
+            lisbon_berlin_trips=lisbon_berlin_trips,
+            nyc_mexico_trips=nyc_mexico_trips,
+        )
+        self._set_from_metrics(metrics)
+
+    def _set_unavailable(self) -> None:
+        self._attr_available = False
+        self._attr_native_value = None
         self._attr_extra_state_attributes = {
             "pv_entity_id": self._pv_entity_id,
             "consumption_kwh_per_100km": self._consumption,
-            "message": message,
-            "metric_message": metric_message,
-            "earth_rounds": earth_rounds,
-            "coffee_cups": coffee_cups,
-            "fuel_saved_liters": fuel_saved_liters,
-            "lisbon_berlin_trips": lisbon_berlin_trips,
-            "nyc_mexico_trips": nyc_mexico_trips,
+        }
+
+    def _build_base_attributes(self, metrics: SolarMetrics) -> dict[str, Any]:
+        return {
+            "pv_entity_id": self._pv_entity_id,
+            "consumption_kwh_per_100km": self._consumption,
+            "calculated_at": dt_util.utcnow().isoformat(),
+            "pv_energy_kwh": round(metrics.pv_kwh, 3),
+            "pv_source": metrics.source_key,
+        }
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        raise NotImplementedError
+
+
+class SolarDistanceSensor(SolarInfoSensor):
+    """Calculate how far an EV could drive from solar energy."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_distance"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.distance_value
+        self._attr_available = True
+        self._attr_extra_state_attributes = {
+            **self._build_base_attributes(metrics),
+            "earth_rounds": metrics.earth_rounds,
+            "coffee_cups": metrics.coffee_cups,
+            "fuel_saved_liters": metrics.fuel_saved_liters,
+            "lisbon_berlin_trips": metrics.lisbon_berlin_trips,
+            "nyc_mexico_trips": metrics.nyc_mexico_trips,
             "assumptions": {
                 "earth_circumference_km": EARTH_CIRCUMFERENCE_KM,
                 "lisbon_berlin_km": LISBON_BERLIN_KM,
@@ -240,7 +314,58 @@ class SolarDistanceSensor(SensorEntity):
                 "coffee_kwh": COFFEE_KWH,
                 "fuel_l_per_100km": FUEL_L_PER_100KM,
             },
-            "calculated_at": dt_util.utcnow().isoformat(),
-            "pv_energy_kwh": round(pv_kwh, 3),
-            "pv_source": source_key,
         }
+
+
+class SolarMessageSensor(SolarInfoSensor):
+    """Expose the driving range message as its own entity."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_message"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.message
+        self._attr_available = True
+        self._attr_extra_state_attributes = self._build_base_attributes(metrics)
+
+
+class SolarMetricMessageSensor(SolarInfoSensor):
+    """Expose the metric message as its own entity."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_metric_message"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.metric_message
+        self._attr_available = True
+        self._attr_extra_state_attributes = self._build_base_attributes(metrics)
+
+
+class SolarCoffeeSensor(SolarInfoSensor):
+    """Expose the coffee cups metric as its own entity."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_coffee_cups"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.coffee_cups
+        self._attr_available = True
+        self._attr_extra_state_attributes = self._build_base_attributes(metrics)

@@ -27,6 +27,15 @@
     "sensor": {
       "distance": {
         "name": "Autonomie solaire"
+      },
+      "message": {
+        "name": "Message de conduite solaire"
+      },
+      "metric_message": {
+        "name": "Métriques de conduite solaire"
+      },
+      "coffee_cups": {
+        "name": "Cafés solaires"
       }
     }
   }

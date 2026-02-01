@@ -27,6 +27,15 @@
     "sensor": {
       "distance": {
         "name": "Solar driving range"
+      },
+      "message": {
+        "name": "Solar driving message"
+      },
+      "metric_message": {
+        "name": "Solar driving metrics"
+      },
+      "coffee_cups": {
+        "name": "Solar coffee cups"
       }
     }
   }
