@@ -88,6 +88,9 @@
       "tv_hours": {
         "name": "Solar TV hours"
       },
+      "heat_pump_hours": {
+        "name": "Solar heat pump hours"
+      },
       "fridge_days": {
         "name": "Solar fridge days"
       },

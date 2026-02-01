@@ -88,6 +88,9 @@
       "tv_hours": {
         "name": "Solare TV-Stunden"
       },
+      "heat_pump_hours": {
+        "name": "Solare Wärmepumpen-Stunden"
+      },
       "fridge_days": {
         "name": "Solare Kühlschrank-Tage"
       },

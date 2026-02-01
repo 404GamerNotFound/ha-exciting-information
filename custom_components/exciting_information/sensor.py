@@ -98,6 +98,9 @@ METRIC_TEXTS = {
         "tv_hours": (
             "Das entspricht etwa {value:.0f} TV-Stunden bei {energy_kwh:.2f} kWh pro Stunde."
         ),
+        "heat_pump_hours": (
+            "Das entspricht etwa {value:.0f} Wärmepumpen-Stunden bei {energy_kwh:.1f} kWh pro Stunde."
+        ),
         "fridge_days": (
             "Das entspricht etwa {value:.1f} Kühlschrank-Tagen bei {energy_kwh:.1f} kWh pro Tag."
         ),
@@ -174,6 +177,9 @@ METRIC_TEXTS = {
         ),
         "tv_hours": (
             "That equals about {value:.0f} TV hours at {energy_kwh:.2f} kWh per hour."
+        ),
+        "heat_pump_hours": (
+            "That equals about {value:.0f} heat pump hours at {energy_kwh:.1f} kWh per hour."
         ),
         "fridge_days": (
             "That equals about {value:.1f} fridge days at {energy_kwh:.1f} kWh per day."
@@ -253,6 +259,9 @@ METRIC_TEXTS = {
         "tv_hours": (
             "Cela correspond à environ {value:.0f} heures de TV à {energy_kwh:.2f} kWh par heure."
         ),
+        "heat_pump_hours": (
+            "Cela correspond à environ {value:.0f} heures de pompe à chaleur à {energy_kwh:.1f} kWh par heure."
+        ),
         "fridge_days": (
             "Cela correspond à environ {value:.1f} jours de réfrigérateur à {energy_kwh:.1f} kWh par jour."
         ),
@@ -330,6 +339,9 @@ METRIC_TEXTS = {
         ),
         "tv_hours": (
             "Equivale a circa {value:.0f} ore di TV a {energy_kwh:.2f} kWh per ora."
+        ),
+        "heat_pump_hours": (
+            "Equivale a circa {value:.0f} ore di pompa di calore a {energy_kwh:.1f} kWh per ora."
         ),
         "fridge_days": (
             "Equivale a circa {value:.1f} giorni di frigorifero a {energy_kwh:.1f} kWh al giorno."
@@ -409,6 +421,9 @@ METRIC_TEXTS = {
         "tv_hours": (
             "Eso equivale a unas {value:.0f} horas de TV a {energy_kwh:.2f} kWh por hora."
         ),
+        "heat_pump_hours": (
+            "Eso equivale a unas {value:.0f} horas de bomba de calor a {energy_kwh:.1f} kWh por hora."
+        ),
         "fridge_days": (
             "Eso equivale a unos {value:.1f} días de frigorífico a {energy_kwh:.1f} kWh por día."
         ),
@@ -456,6 +471,7 @@ PHONE_CHARGE_KWH = 0.012
 LAPTOP_CHARGE_KWH = 0.06
 LED_BULB_KWH_PER_HOUR = 0.01
 TV_KWH_PER_HOUR = 0.1
+HEAT_PUMP_KWH_PER_HOUR = 2.5
 FRIDGE_KWH_PER_DAY = 1.5
 WASHING_CYCLE_KWH = 1.0
 DISHWASHER_CYCLE_KWH = 1.2
@@ -624,6 +640,12 @@ async def async_setup_entry(
             native_unit_of_measurement="hours",
         ),
         SolarDistanceSensorDescription(
+            key="heat_pump_hours",
+            translation_key="heat_pump_hours",
+            icon="mdi:heat-pump",
+            native_unit_of_measurement="hours",
+        ),
+        SolarDistanceSensorDescription(
             key="fridge_days",
             translation_key="fridge_days",
             icon="mdi:fridge",
@@ -772,6 +794,7 @@ class SolarInfoSensor(SensorEntity):
             "laptop_charges": round(pv_kwh / LAPTOP_CHARGE_KWH, 0),
             "led_bulb_hours": round(pv_kwh / LED_BULB_KWH_PER_HOUR, 0),
             "tv_hours": round(pv_kwh / TV_KWH_PER_HOUR, 0),
+            "heat_pump_hours": round(pv_kwh / HEAT_PUMP_KWH_PER_HOUR, 0),
             "fridge_days": round(pv_kwh / FRIDGE_KWH_PER_DAY, 1),
             "washing_cycles": round(pv_kwh / WASHING_CYCLE_KWH, 1),
             "dishwasher_cycles": round(pv_kwh / DISHWASHER_CYCLE_KWH, 1),
@@ -855,6 +878,10 @@ class SolarInfoSensor(SensorEntity):
             "tv_hours": metric_texts["tv_hours"].format(
                 value=metric_values["tv_hours"],
                 energy_kwh=TV_KWH_PER_HOUR,
+            ),
+            "heat_pump_hours": metric_texts["heat_pump_hours"].format(
+                value=metric_values["heat_pump_hours"],
+                energy_kwh=HEAT_PUMP_KWH_PER_HOUR,
             ),
             "fridge_days": metric_texts["fridge_days"].format(
                 value=metric_values["fridge_days"],
