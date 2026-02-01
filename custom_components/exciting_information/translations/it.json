@@ -4,9 +4,9 @@
     "step": {
       "user": {
         "title": "Informazioni EV solare",
-        "description": "Seleziona il sensore di potenza FV (kW) e imposta il consumo dell'auto elettrica.",
+        "description": "Seleziona il sensore di potenza o energia FV (kW/kWh) e imposta il consumo dell'auto elettrica.",
         "data": {
-          "pv_entity_id": "Entità potenza FV",
+          "pv_entity_id": "Entità potenza/energia FV",
           "consumption_kwh_per_100km": "Consumo auto elettrica (kWh/100 km)"
         }
       }
@@ -17,7 +17,7 @@
       "init": {
         "title": "Aggiorna impostazioni",
         "data": {
-          "pv_entity_id": "Entità potenza FV",
+          "pv_entity_id": "Entità potenza/energia FV",
           "consumption_kwh_per_100km": "Consumo auto elettrica (kWh/100 km)"
         }
       }

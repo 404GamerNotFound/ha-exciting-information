@@ -4,9 +4,9 @@
     "step": {
       "user": {
         "title": "Solar EV information",
-        "description": "Select your PV power sensor (kW) and set the EV consumption.",
+        "description": "Select your PV power or energy sensor (kW/kWh) and set the EV consumption.",
         "data": {
-          "pv_entity_id": "PV power entity",
+          "pv_entity_id": "PV power/energy entity",
           "consumption_kwh_per_100km": "EV consumption (kWh/100 km)"
         }
       }
@@ -17,7 +17,7 @@
       "init": {
         "title": "Update settings",
         "data": {
-          "pv_entity_id": "PV power entity",
+          "pv_entity_id": "PV power/energy entity",
           "consumption_kwh_per_100km": "EV consumption (kWh/100 km)"
         }
       }

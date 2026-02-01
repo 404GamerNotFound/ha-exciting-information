@@ -6,34 +6,44 @@ from dataclasses import dataclass
 from typing import Any
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
+from homeassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfEnergy, UnitOfPower
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.util import dt as dt_util
+from homeassistant.util.unit_conversion import EnergyConverter, PowerConverter
 
 from .const import CONF_CONSUMPTION, CONF_PV_ENTITY_ID, DOMAIN
 
 MESSAGE_TEMPLATES = {
     "de": (
-        "Mit deiner aktuellen Solarenergie könntest du bei einem Verbrauch von {consumption:.1f} "
-        "kWh/100 km etwa {distance:.1f} km fahren (z. B. Berlin–München)."
+        "Mit deiner aktuellen {source} könntest du bei einem Verbrauch von {consumption:.1f} "
+        "kWh/100 km etwa {distance:.1f} km fahren."
     ),
     "en": (
-        "With your current solar energy you could drive about {distance:.1f} km at a "
-        "consumption of {consumption:.1f} kWh/100 km (e.g. Berlin–Munich)."
+        "With your current {source} you could drive about {distance:.1f} km at a "
+        "consumption of {consumption:.1f} kWh/100 km."
     ),
     "fr": (
-        "Avec votre énergie solaire actuelle, vous pourriez parcourir environ {distance:.1f} km "
-        "pour une consommation de {consumption:.1f} kWh/100 km (par ex. Berlin–Munich)."
+        "Avec votre {source} actuelle, vous pourriez parcourir environ {distance:.1f} km pour "
+        "une consommation de {consumption:.1f} kWh/100 km."
     ),
     "it": (
-        "Con la tua energia solare attuale potresti percorrere circa {distance:.1f} km con un "
-        "consumo di {consumption:.1f} kWh/100 km (ad es. Berlino–Monaco)."
+        "Con la tua {source} attuale potresti percorrere circa {distance:.1f} km con un consumo "
+        "di {consumption:.1f} kWh/100 km."
     ),
     "es": (
-        "Con tu energía solar actual podrías recorrer aproximadamente {distance:.1f} km con un "
-        "consumo de {consumption:.1f} kWh/100 km (p. ej., Berlín–Múnich)."
+        "Con tu {source} actual podrías recorrer aproximadamente {distance:.1f} km con un "
+        "consumo de {consumption:.1f} kWh/100 km."
     ),
+}
+
+SOURCE_LABELS = {
+    "de": {"energy": "Solarenergie", "power": "Solarleistung (1 h)"},
+    "en": {"energy": "solar energy", "power": "solar power (1 h)"},
+    "fr": {"energy": "énergie solaire", "power": "puissance solaire (1 h)"},
+    "it": {"energy": "energia solare", "power": "potenza solare (1 h)"},
+    "es": {"energy": "energía solar", "power": "potencia solar (1 h)"},
 }
 
 
@@ -116,7 +126,7 @@ class SolarDistanceSensor(SensorEntity):
             return
 
         try:
-            pv_kw = float(state.state)
+            pv_value = float(state.state)
         except ValueError:
             self._attr_native_value = None
             self._attr_extra_state_attributes = {
@@ -125,14 +135,37 @@ class SolarDistanceSensor(SensorEntity):
             }
             return
 
-        distance = (pv_kw / self._consumption) * 100
-        self._attr_native_value = round(distance, 2)
+        unit = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
+        pv_kwh = None
+        source_key = "power"
+
+        if unit in (UnitOfEnergy.KILO_WATT_HOUR, UnitOfEnergy.WATT_HOUR):
+            pv_kwh = EnergyConverter.convert(pv_value, unit, UnitOfEnergy.KILO_WATT_HOUR)
+            source_key = "energy"
+        elif unit in (UnitOfPower.KILO_WATT, UnitOfPower.WATT):
+            pv_kw = PowerConverter.convert(pv_value, unit, UnitOfPower.KILO_WATT)
+            pv_kwh = pv_kw
+            source_key = "power"
+        else:
+            pv_kwh = pv_value
+            source_key = "power"
+
+        distance = (pv_kwh / self._consumption) * 100
+        distance_value = round(distance, 2)
+        self._attr_native_value = distance_value
         self._attr_available = True
         template = MESSAGE_TEMPLATES.get(self._language, MESSAGE_TEMPLATES["en"])
-        message = template.format(consumption=self._consumption, distance=distance)
+        source_label = SOURCE_LABELS.get(self._language, SOURCE_LABELS["en"])[source_key]
+        message = template.format(
+            consumption=self._consumption,
+            distance=distance_value,
+            source=source_label,
+        )
         self._attr_extra_state_attributes = {
             "pv_entity_id": self._pv_entity_id,
             "consumption_kwh_per_100km": self._consumption,
             "message": message,
             "calculated_at": dt_util.utcnow().isoformat(),
+            "pv_energy_kwh": round(pv_kwh, 3),
+            "pv_source": source_key,
         }
