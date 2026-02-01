@@ -102,38 +102,6 @@ The UI strings are available in:
 - Spanish (es)
 
 ## Example Lovelace cards
-### PV Exciting Information slider card (custom)
-1) Add the resource:
-   - **URL**: `/pv-exciting-information-card.js`
-   - **Type**: `module`
-
-After installing/upgrading the integration, restart Home Assistant to make the resource available.
-
-2) Use the card:
-```yaml
-type: custom:pv-exciting-information-card
-title: Solar highlights
-entities:
-  - entity: sensor.solar_driving_range
-    name: Range
-    icon: mdi:car-electric
-    secondary_attribute: message
-  - entity: sensor.solar_fuel_savings
-    name: Fuel saved
-    icon: mdi:gas-station
-  - entity: sensor.solar_co2_savings
-    name: CO2 saved
-    icon: mdi:molecule-co2
-  - entity: sensor.solar_coffee_cups
-    name: Coffee cups
-    icon: mdi:coffee
-```
-
-Optional fields per entity:
-- `attribute`: show a specific attribute as the main value (instead of the entity state).
-- `secondary_attribute`: show a secondary attribute below the value.
-- `secondary`: static secondary text.
-
 ### Mushroom card (pretty and compact)
 ```yaml
 type: custom:mushroom-template-card
