@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 from homeassistant.components.http import StaticPathConfig
@@ -18,9 +19,24 @@ CARD_RESOURCE_PATH = Path(__file__).parent / "www" / "pv-exciting-information-ca
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
+_LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up PV Exciting Information from configuration.yaml."""
+    if not CARD_RESOURCE_PATH.exists():
+        _LOGGER.warning(
+            "Card resource file missing at %s, skipping static path registration",
+            CARD_RESOURCE_PATH,
+        )
+        return True
+    if hass.http is None:
+        _LOGGER.warning(
+            "HTTP component unavailable, skipping static path registration for %s",
+            CARD_URL_PATH,
+        )
+        return True
+
     hass.http.register_static_path(
         StaticPathConfig(CARD_URL_PATH, str(CARD_RESOURCE_PATH), True)
     )
