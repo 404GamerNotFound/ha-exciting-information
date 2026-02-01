@@ -31,11 +31,20 @@
       "message": {
         "name": "Message de conduite solaire"
       },
-      "metric_message": {
-        "name": "Métriques de conduite solaire"
+      "earth_rounds": {
+        "name": "Tours solaires de la Terre"
       },
       "coffee_cups": {
         "name": "Cafés solaires"
+      },
+      "fuel_saved_liters": {
+        "name": "Économie de carburant solaire"
+      },
+      "lisbon_berlin_trips": {
+        "name": "Trajets solaires Lisbonne–Berlin"
+      },
+      "nyc_mexico_trips": {
+        "name": "Trajets solaires New York–Mexico"
       }
     }
   }

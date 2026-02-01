@@ -38,42 +38,96 @@ MESSAGE_TEMPLATES = {
     ),
 }
 
-METRIC_TEMPLATES = {
-    "de": (
-        "Das entspricht etwa {earth_rounds:.3f} Erdumrundungen (≈ {earth_km:.0f} km), "
-        "{coffee_cups:.0f} Kaffee(n) bei {coffee_kwh:.2f} kWh pro Kaffee, einer Benzinersparnis "
-        "von {fuel_saved_liters:.1f} l bei {fuel_l_per_100km:.1f} l/100 km sowie "
-        "{lisbon_berlin_trips:.2f} Fahrten Lissabon–Berlin (≈ {lisbon_berlin_km:.0f} km) und "
-        "{nyc_mexico_trips:.2f} Fahrten New York–Mexiko-Stadt (≈ {nyc_mexico_km:.0f} km)."
-    ),
-    "en": (
-        "That equals about {earth_rounds:.3f} trips around Earth (≈ {earth_km:.0f} km), "
-        "{coffee_cups:.0f} coffees at {coffee_kwh:.2f} kWh per coffee, fuel savings of "
-        "{fuel_saved_liters:.1f} L at {fuel_l_per_100km:.1f} L/100 km, plus "
-        "{lisbon_berlin_trips:.2f} Lisbon–Berlin trips (≈ {lisbon_berlin_km:.0f} km) and "
-        "{nyc_mexico_trips:.2f} New York–Mexico City trips (≈ {nyc_mexico_km:.0f} km)."
-    ),
-    "fr": (
-        "Cela correspond à environ {earth_rounds:.3f} tours de la Terre (≈ {earth_km:.0f} km), "
-        "{coffee_cups:.0f} cafés à {coffee_kwh:.2f} kWh par café, une économie d’essence de "
-        "{fuel_saved_liters:.1f} L à {fuel_l_per_100km:.1f} L/100 km, ainsi que "
-        "{lisbon_berlin_trips:.2f} trajets Lisbonne–Berlin (≈ {lisbon_berlin_km:.0f} km) et "
-        "{nyc_mexico_trips:.2f} trajets New York–Mexico (≈ {nyc_mexico_km:.0f} km)."
-    ),
-    "it": (
-        "Equivale a circa {earth_rounds:.3f} giri della Terra (≈ {earth_km:.0f} km), "
-        "{coffee_cups:.0f} caffè a {coffee_kwh:.2f} kWh per caffè, un risparmio di benzina di "
-        "{fuel_saved_liters:.1f} L a {fuel_l_per_100km:.1f} L/100 km, oltre a "
-        "{lisbon_berlin_trips:.2f} viaggi Lisbona–Berlino (≈ {lisbon_berlin_km:.0f} km) e "
-        "{nyc_mexico_trips:.2f} viaggi New York–Città del Messico (≈ {nyc_mexico_km:.0f} km)."
-    ),
-    "es": (
-        "Eso equivale a unas {earth_rounds:.3f} vueltas a la Tierra (≈ {earth_km:.0f} km), "
-        "{coffee_cups:.0f} cafés a {coffee_kwh:.2f} kWh por café, un ahorro de gasolina de "
-        "{fuel_saved_liters:.1f} L a {fuel_l_per_100km:.1f} L/100 km, además de "
-        "{lisbon_berlin_trips:.2f} viajes Lisboa–Berlín (≈ {lisbon_berlin_km:.0f} km) y "
-        "{nyc_mexico_trips:.2f} viajes Nueva York–Ciudad de México (≈ {nyc_mexico_km:.0f} km)."
-    ),
+METRIC_TEXTS = {
+    "de": {
+        "earth_rounds": (
+            "Das entspricht etwa {value:.3f} Erdumrundungen (≈ {distance_km:.0f} km)."
+        ),
+        "coffee_cups": (
+            "Das entspricht etwa {value:.0f} Kaffee(n) bei {coffee_kwh:.2f} kWh pro Kaffee."
+        ),
+        "fuel_saved_liters": (
+            "Das entspricht einer Benzinersparnis von {value:.1f} l bei "
+            "{fuel_l_per_100km:.1f} l/100 km."
+        ),
+        "lisbon_berlin_trips": (
+            "Das entspricht {value:.2f} Fahrten Lissabon–Berlin (≈ {distance_km:.0f} km)."
+        ),
+        "nyc_mexico_trips": (
+            "Das entspricht {value:.2f} Fahrten New York–Mexiko-Stadt (≈ {distance_km:.0f} km)."
+        ),
+    },
+    "en": {
+        "earth_rounds": (
+            "That equals about {value:.3f} trips around Earth (≈ {distance_km:.0f} km)."
+        ),
+        "coffee_cups": (
+            "That equals about {value:.0f} coffees at {coffee_kwh:.2f} kWh per coffee."
+        ),
+        "fuel_saved_liters": (
+            "That equals fuel savings of {value:.1f} L at {fuel_l_per_100km:.1f} L/100 km."
+        ),
+        "lisbon_berlin_trips": (
+            "That equals {value:.2f} Lisbon–Berlin trips (≈ {distance_km:.0f} km)."
+        ),
+        "nyc_mexico_trips": (
+            "That equals {value:.2f} New York–Mexico City trips (≈ {distance_km:.0f} km)."
+        ),
+    },
+    "fr": {
+        "earth_rounds": (
+            "Cela correspond à environ {value:.3f} tours de la Terre (≈ {distance_km:.0f} km)."
+        ),
+        "coffee_cups": (
+            "Cela correspond à environ {value:.0f} cafés à {coffee_kwh:.2f} kWh par café."
+        ),
+        "fuel_saved_liters": (
+            "Cela correspond à une économie d’essence de {value:.1f} L à "
+            "{fuel_l_per_100km:.1f} L/100 km."
+        ),
+        "lisbon_berlin_trips": (
+            "Cela correspond à {value:.2f} trajets Lisbonne–Berlin (≈ {distance_km:.0f} km)."
+        ),
+        "nyc_mexico_trips": (
+            "Cela correspond à {value:.2f} trajets New York–Mexico (≈ {distance_km:.0f} km)."
+        ),
+    },
+    "it": {
+        "earth_rounds": (
+            "Equivale a circa {value:.3f} giri della Terra (≈ {distance_km:.0f} km)."
+        ),
+        "coffee_cups": (
+            "Equivale a circa {value:.0f} caffè a {coffee_kwh:.2f} kWh per caffè."
+        ),
+        "fuel_saved_liters": (
+            "Equivale a un risparmio di benzina di {value:.1f} L a "
+            "{fuel_l_per_100km:.1f} L/100 km."
+        ),
+        "lisbon_berlin_trips": (
+            "Equivale a {value:.2f} viaggi Lisbona–Berlino (≈ {distance_km:.0f} km)."
+        ),
+        "nyc_mexico_trips": (
+            "Equivale a {value:.2f} viaggi New York–Città del Messico (≈ {distance_km:.0f} km)."
+        ),
+    },
+    "es": {
+        "earth_rounds": (
+            "Eso equivale a unas {value:.3f} vueltas a la Tierra (≈ {distance_km:.0f} km)."
+        ),
+        "coffee_cups": (
+            "Eso equivale a unos {value:.0f} cafés a {coffee_kwh:.2f} kWh por café."
+        ),
+        "fuel_saved_liters": (
+            "Eso equivale a un ahorro de gasolina de {value:.1f} L a "
+            "{fuel_l_per_100km:.1f} L/100 km."
+        ),
+        "lisbon_berlin_trips": (
+            "Eso equivale a {value:.2f} viajes Lisboa–Berlín (≈ {distance_km:.0f} km)."
+        ),
+        "nyc_mexico_trips": (
+            "Eso equivale a {value:.2f} viajes Nueva York–Ciudad de México (≈ {distance_km:.0f} km)."
+        ),
+    },
 }
 
 SOURCE_LABELS = {
@@ -104,12 +158,12 @@ class SolarMetrics:
     source_key: str
     distance_value: float
     message: str
-    metric_message: str
     earth_rounds: float
     coffee_cups: float
     fuel_saved_liters: float
     lisbon_berlin_trips: float
     nyc_mexico_trips: float
+    texts: dict[str, str]
 
 
 def _get_language(hass: HomeAssistant) -> str:
@@ -134,10 +188,10 @@ async def async_setup_entry(
         translation_key="message",
         icon="mdi:message-text",
     )
-    metric_message_description = SolarDistanceSensorDescription(
-        key="metric_message",
-        translation_key="metric_message",
-        icon="mdi:message-text-outline",
+    earth_rounds_description = SolarDistanceSensorDescription(
+        key="earth_rounds",
+        translation_key="earth_rounds",
+        icon="mdi:earth",
     )
     coffee_description = SolarDistanceSensorDescription(
         key="coffee_cups",
@@ -145,12 +199,33 @@ async def async_setup_entry(
         icon="mdi:coffee",
         native_unit_of_measurement="cups",
     )
+    fuel_description = SolarDistanceSensorDescription(
+        key="fuel_saved_liters",
+        translation_key="fuel_saved_liters",
+        icon="mdi:gas-station",
+        native_unit_of_measurement="L",
+    )
+    lisbon_berlin_description = SolarDistanceSensorDescription(
+        key="lisbon_berlin_trips",
+        translation_key="lisbon_berlin_trips",
+        icon="mdi:car",
+        native_unit_of_measurement="trips",
+    )
+    nyc_mexico_description = SolarDistanceSensorDescription(
+        key="nyc_mexico_trips",
+        translation_key="nyc_mexico_trips",
+        icon="mdi:car",
+        native_unit_of_measurement="trips",
+    )
     async_add_entities(
         [
             SolarDistanceSensor(hass, entry, description),
             SolarMessageSensor(hass, entry, message_description),
-            SolarMetricMessageSensor(hass, entry, metric_message_description),
+            SolarEarthRoundsSensor(hass, entry, earth_rounds_description),
             SolarCoffeeSensor(hass, entry, coffee_description),
+            SolarFuelSavedSensor(hass, entry, fuel_description),
+            SolarLisbonBerlinTripsSensor(hass, entry, lisbon_berlin_description),
+            SolarNycMexicoTripsSensor(hass, entry, nyc_mexico_description),
         ]
     )
 
@@ -224,7 +299,7 @@ class SolarInfoSensor(SensorEntity):
             source_key = "power"
 
         template = MESSAGE_TEMPLATES.get(self._language, MESSAGE_TEMPLATES["en"])
-        metric_template = METRIC_TEMPLATES.get(self._language, METRIC_TEMPLATES["en"])
+        metric_texts = METRIC_TEXTS.get(self._language, METRIC_TEXTS["en"])
         source_label = SOURCE_LABELS.get(self._language, SOURCE_LABELS["en"])[source_key]
         distance = (pv_kwh / self._consumption) * 100
         distance_value = round(distance, 2)
@@ -238,29 +313,39 @@ class SolarInfoSensor(SensorEntity):
         fuel_saved_liters = round(distance_value * FUEL_L_PER_100KM / 100, 1)
         lisbon_berlin_trips = round(distance_value / LISBON_BERLIN_KM, 2)
         nyc_mexico_trips = round(distance_value / NEW_YORK_MEXICO_CITY_KM, 2)
-        metric_message = metric_template.format(
-            earth_rounds=earth_rounds,
-            earth_km=EARTH_CIRCUMFERENCE_KM,
-            coffee_cups=coffee_cups,
-            coffee_kwh=COFFEE_KWH,
-            fuel_saved_liters=fuel_saved_liters,
-            fuel_l_per_100km=FUEL_L_PER_100KM,
-            lisbon_berlin_trips=lisbon_berlin_trips,
-            lisbon_berlin_km=LISBON_BERLIN_KM,
-            nyc_mexico_trips=nyc_mexico_trips,
-            nyc_mexico_km=NEW_YORK_MEXICO_CITY_KM,
-        )
+        texts = {
+            "earth_rounds": metric_texts["earth_rounds"].format(
+                value=earth_rounds,
+                distance_km=EARTH_CIRCUMFERENCE_KM,
+            ),
+            "coffee_cups": metric_texts["coffee_cups"].format(
+                value=coffee_cups,
+                coffee_kwh=COFFEE_KWH,
+            ),
+            "fuel_saved_liters": metric_texts["fuel_saved_liters"].format(
+                value=fuel_saved_liters,
+                fuel_l_per_100km=FUEL_L_PER_100KM,
+            ),
+            "lisbon_berlin_trips": metric_texts["lisbon_berlin_trips"].format(
+                value=lisbon_berlin_trips,
+                distance_km=LISBON_BERLIN_KM,
+            ),
+            "nyc_mexico_trips": metric_texts["nyc_mexico_trips"].format(
+                value=nyc_mexico_trips,
+                distance_km=NEW_YORK_MEXICO_CITY_KM,
+            ),
+        }
         metrics = SolarMetrics(
             pv_kwh=pv_kwh,
             source_key=source_key,
             distance_value=distance_value,
             message=message,
-            metric_message=metric_message,
             earth_rounds=earth_rounds,
             coffee_cups=coffee_cups,
             fuel_saved_liters=fuel_saved_liters,
             lisbon_berlin_trips=lisbon_berlin_trips,
             nyc_mexico_trips=nyc_mexico_trips,
+            texts=texts,
         )
         self._set_from_metrics(metrics)
 
@@ -335,8 +420,8 @@ class SolarMessageSensor(SolarInfoSensor):
         self._attr_extra_state_attributes = self._build_base_attributes(metrics)
 
 
-class SolarMetricMessageSensor(SolarInfoSensor):
-    """Expose the metric message as its own entity."""
+class SolarEarthRoundsSensor(SolarInfoSensor):
+    """Expose the earth-rounds metric as its own entity."""
 
     def __init__(
         self,
@@ -345,12 +430,15 @@ class SolarMetricMessageSensor(SolarInfoSensor):
         description: SensorEntityDescription,
     ) -> None:
         super().__init__(hass, entry, description)
-        self._attr_unique_id = f"{entry.entry_id}_metric_message"
+        self._attr_unique_id = f"{entry.entry_id}_earth_rounds"
 
     def _set_from_metrics(self, metrics: SolarMetrics) -> None:
-        self._attr_native_value = metrics.metric_message
+        self._attr_native_value = metrics.earth_rounds
         self._attr_available = True
-        self._attr_extra_state_attributes = self._build_base_attributes(metrics)
+        self._attr_extra_state_attributes = {
+            **self._build_base_attributes(metrics),
+            "text": metrics.texts["earth_rounds"],
+        }
 
 
 class SolarCoffeeSensor(SolarInfoSensor):
@@ -368,4 +456,70 @@ class SolarCoffeeSensor(SolarInfoSensor):
     def _set_from_metrics(self, metrics: SolarMetrics) -> None:
         self._attr_native_value = metrics.coffee_cups
         self._attr_available = True
-        self._attr_extra_state_attributes = self._build_base_attributes(metrics)
+        self._attr_extra_state_attributes = {
+            **self._build_base_attributes(metrics),
+            "text": metrics.texts["coffee_cups"],
+        }
+
+
+class SolarFuelSavedSensor(SolarInfoSensor):
+    """Expose the fuel saved metric as its own entity."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_fuel_saved_liters"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.fuel_saved_liters
+        self._attr_available = True
+        self._attr_extra_state_attributes = {
+            **self._build_base_attributes(metrics),
+            "text": metrics.texts["fuel_saved_liters"],
+        }
+
+
+class SolarLisbonBerlinTripsSensor(SolarInfoSensor):
+    """Expose the Lisbon–Berlin trips metric as its own entity."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_lisbon_berlin_trips"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.lisbon_berlin_trips
+        self._attr_available = True
+        self._attr_extra_state_attributes = {
+            **self._build_base_attributes(metrics),
+            "text": metrics.texts["lisbon_berlin_trips"],
+        }
+
+
+class SolarNycMexicoTripsSensor(SolarInfoSensor):
+    """Expose the New York–Mexico City trips metric as its own entity."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        description: SensorEntityDescription,
+    ) -> None:
+        super().__init__(hass, entry, description)
+        self._attr_unique_id = f"{entry.entry_id}_nyc_mexico_trips"
+
+    def _set_from_metrics(self, metrics: SolarMetrics) -> None:
+        self._attr_native_value = metrics.nyc_mexico_trips
+        self._attr_available = True
+        self._attr_extra_state_attributes = {
+            **self._build_base_attributes(metrics),
+            "text": metrics.texts["nyc_mexico_trips"],
+        }
