@@ -1,0 +1,33 @@
+{
+  "title": "Exciting Information",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Solar-EV-Information",
+        "description": "Wähle deinen PV-Leistungssensor (kW) aus und gib den Verbrauch des E-Autos an.",
+        "data": {
+          "pv_entity_id": "PV-Leistungsentität",
+          "consumption_kwh_per_100km": "E-Auto-Verbrauch (kWh/100 km)"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Einstellungen aktualisieren",
+        "data": {
+          "pv_entity_id": "PV-Leistungsentität",
+          "consumption_kwh_per_100km": "E-Auto-Verbrauch (kWh/100 km)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "distance": {
+        "name": "Solare Reichweite"
+      }
+    }
+  }
+}
