@@ -38,6 +38,44 @@ MESSAGE_TEMPLATES = {
     ),
 }
 
+METRIC_TEMPLATES = {
+    "de": (
+        "Das entspricht etwa {earth_rounds:.3f} Erdumrundungen (≈ {earth_km:.0f} km), "
+        "{coffee_cups:.0f} Kaffee(n) bei {coffee_kwh:.2f} kWh pro Kaffee, einer Benzinersparnis "
+        "von {fuel_saved_liters:.1f} l bei {fuel_l_per_100km:.1f} l/100 km sowie "
+        "{lisbon_berlin_trips:.2f} Fahrten Lissabon–Berlin (≈ {lisbon_berlin_km:.0f} km) und "
+        "{nyc_mexico_trips:.2f} Fahrten New York–Mexiko-Stadt (≈ {nyc_mexico_km:.0f} km)."
+    ),
+    "en": (
+        "That equals about {earth_rounds:.3f} trips around Earth (≈ {earth_km:.0f} km), "
+        "{coffee_cups:.0f} coffees at {coffee_kwh:.2f} kWh per coffee, fuel savings of "
+        "{fuel_saved_liters:.1f} L at {fuel_l_per_100km:.1f} L/100 km, plus "
+        "{lisbon_berlin_trips:.2f} Lisbon–Berlin trips (≈ {lisbon_berlin_km:.0f} km) and "
+        "{nyc_mexico_trips:.2f} New York–Mexico City trips (≈ {nyc_mexico_km:.0f} km)."
+    ),
+    "fr": (
+        "Cela correspond à environ {earth_rounds:.3f} tours de la Terre (≈ {earth_km:.0f} km), "
+        "{coffee_cups:.0f} cafés à {coffee_kwh:.2f} kWh par café, une économie d’essence de "
+        "{fuel_saved_liters:.1f} L à {fuel_l_per_100km:.1f} L/100 km, ainsi que "
+        "{lisbon_berlin_trips:.2f} trajets Lisbonne–Berlin (≈ {lisbon_berlin_km:.0f} km) et "
+        "{nyc_mexico_trips:.2f} trajets New York–Mexico (≈ {nyc_mexico_km:.0f} km)."
+    ),
+    "it": (
+        "Equivale a circa {earth_rounds:.3f} giri della Terra (≈ {earth_km:.0f} km), "
+        "{coffee_cups:.0f} caffè a {coffee_kwh:.2f} kWh per caffè, un risparmio di benzina di "
+        "{fuel_saved_liters:.1f} L a {fuel_l_per_100km:.1f} L/100 km, oltre a "
+        "{lisbon_berlin_trips:.2f} viaggi Lisbona–Berlino (≈ {lisbon_berlin_km:.0f} km) e "
+        "{nyc_mexico_trips:.2f} viaggi New York–Città del Messico (≈ {nyc_mexico_km:.0f} km)."
+    ),
+    "es": (
+        "Eso equivale a unas {earth_rounds:.3f} vueltas a la Tierra (≈ {earth_km:.0f} km), "
+        "{coffee_cups:.0f} cafés a {coffee_kwh:.2f} kWh por café, un ahorro de gasolina de "
+        "{fuel_saved_liters:.1f} L a {fuel_l_per_100km:.1f} L/100 km, además de "
+        "{lisbon_berlin_trips:.2f} viajes Lisboa–Berlín (≈ {lisbon_berlin_km:.0f} km) y "
+        "{nyc_mexico_trips:.2f} viajes Nueva York–Ciudad de México (≈ {nyc_mexico_km:.0f} km)."
+    ),
+}
+
 SOURCE_LABELS = {
     "de": {"energy": "Solarenergie", "power": "Solarleistung (1 h)"},
     "en": {"energy": "solar energy", "power": "solar power (1 h)"},
@@ -45,6 +83,12 @@ SOURCE_LABELS = {
     "it": {"energy": "energia solare", "power": "potenza solare (1 h)"},
     "es": {"energy": "energía solar", "power": "potencia solar (1 h)"},
 }
+
+EARTH_CIRCUMFERENCE_KM = 40075.0
+LISBON_BERLIN_KM = 2310.0
+NEW_YORK_MEXICO_CITY_KM = 3360.0
+COFFEE_KWH = 0.07
+FUEL_L_PER_100KM = 7.0
 
 
 @dataclass(frozen=True)
@@ -155,16 +199,47 @@ class SolarDistanceSensor(SensorEntity):
         self._attr_native_value = distance_value
         self._attr_available = True
         template = MESSAGE_TEMPLATES.get(self._language, MESSAGE_TEMPLATES["en"])
+        metric_template = METRIC_TEMPLATES.get(self._language, METRIC_TEMPLATES["en"])
         source_label = SOURCE_LABELS.get(self._language, SOURCE_LABELS["en"])[source_key]
         message = template.format(
             consumption=self._consumption,
             distance=distance_value,
             source=source_label,
         )
+        earth_rounds = round(distance_value / EARTH_CIRCUMFERENCE_KM, 3)
+        coffee_cups = round(pv_kwh / COFFEE_KWH, 1)
+        fuel_saved_liters = round(distance_value * FUEL_L_PER_100KM / 100, 1)
+        lisbon_berlin_trips = round(distance_value / LISBON_BERLIN_KM, 2)
+        nyc_mexico_trips = round(distance_value / NEW_YORK_MEXICO_CITY_KM, 2)
+        metric_message = metric_template.format(
+            earth_rounds=earth_rounds,
+            earth_km=EARTH_CIRCUMFERENCE_KM,
+            coffee_cups=coffee_cups,
+            coffee_kwh=COFFEE_KWH,
+            fuel_saved_liters=fuel_saved_liters,
+            fuel_l_per_100km=FUEL_L_PER_100KM,
+            lisbon_berlin_trips=lisbon_berlin_trips,
+            lisbon_berlin_km=LISBON_BERLIN_KM,
+            nyc_mexico_trips=nyc_mexico_trips,
+            nyc_mexico_km=NEW_YORK_MEXICO_CITY_KM,
+        )
         self._attr_extra_state_attributes = {
             "pv_entity_id": self._pv_entity_id,
             "consumption_kwh_per_100km": self._consumption,
             "message": message,
+            "metric_message": metric_message,
+            "earth_rounds": earth_rounds,
+            "coffee_cups": coffee_cups,
+            "fuel_saved_liters": fuel_saved_liters,
+            "lisbon_berlin_trips": lisbon_berlin_trips,
+            "nyc_mexico_trips": nyc_mexico_trips,
+            "assumptions": {
+                "earth_circumference_km": EARTH_CIRCUMFERENCE_KM,
+                "lisbon_berlin_km": LISBON_BERLIN_KM,
+                "new_york_mexico_city_km": NEW_YORK_MEXICO_CITY_KM,
+                "coffee_kwh": COFFEE_KWH,
+                "fuel_l_per_100km": FUEL_L_PER_100KM,
+            },
             "calculated_at": dt_util.utcnow().isoformat(),
             "pv_energy_kwh": round(pv_kwh, 3),
             "pv_source": source_key,
