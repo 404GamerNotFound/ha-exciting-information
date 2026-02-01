@@ -45,6 +45,66 @@
       },
       "nyc_mexico_trips": {
         "name": "Solar New York–Mexico City trips"
+      },
+      "marathon_equivalents": {
+        "name": "Solar marathon equivalents"
+      },
+      "berlin_hamburg_trips": {
+        "name": "Solar Berlin–Hamburg trips"
+      },
+      "munich_hamburg_trips": {
+        "name": "Solar Munich–Hamburg trips"
+      },
+      "paris_lyon_trips": {
+        "name": "Solar Paris–Lyon trips"
+      },
+      "london_edinburgh_trips": {
+        "name": "Solar London–Edinburgh trips"
+      },
+      "rome_milan_trips": {
+        "name": "Solar Rome–Milan trips"
+      },
+      "madrid_barcelona_trips": {
+        "name": "Solar Madrid–Barcelona trips"
+      },
+      "vienna_prague_trips": {
+        "name": "Solar Vienna–Prague trips"
+      },
+      "la_sf_trips": {
+        "name": "Solar Los Angeles–San Francisco trips"
+      },
+      "tokyo_osaka_trips": {
+        "name": "Solar Tokyo–Osaka trips"
+      },
+      "phone_charges": {
+        "name": "Solar phone charges"
+      },
+      "laptop_charges": {
+        "name": "Solar laptop charges"
+      },
+      "led_bulb_hours": {
+        "name": "Solar LED bulb hours"
+      },
+      "tv_hours": {
+        "name": "Solar TV hours"
+      },
+      "fridge_days": {
+        "name": "Solar fridge days"
+      },
+      "washing_cycles": {
+        "name": "Solar washing cycles"
+      },
+      "dishwasher_cycles": {
+        "name": "Solar dishwasher cycles"
+      },
+      "hot_showers": {
+        "name": "Solar hot showers"
+      },
+      "microwave_meals": {
+        "name": "Solar microwave meals"
+      },
+      "kettle_boils": {
+        "name": "Solar kettle boils"
       }
     }
   }
