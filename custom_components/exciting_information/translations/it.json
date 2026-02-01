@@ -5,6 +5,9 @@
       "user": {
         "title": "Informazioni EV solare",
         "description": "Seleziona il sensore di potenza o energia FV (kW/kWh) e imposta il consumo dell'auto elettrica.",
+        "error": {
+          "entity_not_found": "L'entità selezionata non esiste. Scegli un'entità sensore esistente."
+        },
         "data": {
           "pv_entity_id": "Entità potenza/energia FV",
           "grid_import_entity_id": "Entità energia importata dalla rete (opzionale)",
@@ -18,6 +21,9 @@
     "step": {
       "init": {
         "title": "Aggiorna impostazioni",
+        "error": {
+          "entity_not_found": "L'entità selezionata non esiste. Scegli un'entità sensore esistente."
+        },
         "data": {
           "pv_entity_id": "Entità potenza/energia FV",
           "grid_import_entity_id": "Entità energia importata dalla rete (opzionale)",

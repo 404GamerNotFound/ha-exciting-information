@@ -5,6 +5,9 @@
       "user": {
         "title": "Solar EV information",
         "description": "Select your PV power or energy sensor (kW/kWh) and set the EV consumption.",
+        "error": {
+          "entity_not_found": "The selected entity does not exist. Choose an existing sensor entity."
+        },
         "data": {
           "pv_entity_id": "PV power/energy entity",
           "grid_import_entity_id": "Grid import energy entity (optional)",
@@ -18,6 +21,9 @@
     "step": {
       "init": {
         "title": "Update settings",
+        "error": {
+          "entity_not_found": "The selected entity does not exist. Choose an existing sensor entity."
+        },
         "data": {
           "pv_entity_id": "PV power/energy entity",
           "grid_import_entity_id": "Grid import energy entity (optional)",

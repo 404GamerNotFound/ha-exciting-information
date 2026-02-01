@@ -5,6 +5,7 @@ from __future__ import annotations
 import voluptuous as vol
 
 from homeassistant import config_entries
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers import selector
 
 from .const import (
@@ -74,6 +75,21 @@ def _options_schema(
     )
 
 
+def _validate_entity_ids(hass: HomeAssistant, user_input: dict) -> dict[str, str]:
+    errors: dict[str, str] = {}
+    for key in (
+        CONF_PV_ENTITY_ID,
+        CONF_GRID_IMPORT_ENTITY_ID,
+        CONF_GRID_EXPORT_ENTITY_ID,
+    ):
+        entity_id = user_input.get(key)
+        if not entity_id:
+            continue
+        if hass.states.get(entity_id) is None:
+            errors[key] = "entity_not_found"
+    return errors
+
+
 class ExcitingInformationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for PV Exciting Information."""
 
@@ -82,6 +98,13 @@ class ExcitingInformationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input: dict | None = None):
         """Handle the initial step."""
         if user_input is not None:
+            errors = _validate_entity_ids(self.hass, user_input)
+            if errors:
+                return self.async_show_form(
+                    step_id="user",
+                    data_schema=_schema(DEFAULT_CONSUMPTION),
+                    errors=errors,
+                )
             return self.async_create_entry(
                 title="PV Exciting Information",
                 data=user_input,
@@ -114,6 +137,29 @@ class ExcitingInformationOptionsFlow(config_entries.OptionsFlow):
             if CONF_PV_ENTITY_ID not in user_input:
                 user_input[CONF_PV_ENTITY_ID] = self._entry.options.get(
                     CONF_PV_ENTITY_ID, self._entry.data[CONF_PV_ENTITY_ID]
+                )
+            errors = _validate_entity_ids(self.hass, user_input)
+            if errors:
+                return self.async_show_form(
+                    step_id="init",
+                    data_schema=_options_schema(
+                        self._entry.options.get(
+                            CONF_CONSUMPTION,
+                            self._entry.data.get(CONF_CONSUMPTION, DEFAULT_CONSUMPTION),
+                        ),
+                        self._entry.options.get(
+                            CONF_PV_ENTITY_ID, self._entry.data[CONF_PV_ENTITY_ID]
+                        ),
+                        self._entry.options.get(
+                            CONF_GRID_IMPORT_ENTITY_ID,
+                            self._entry.data.get(CONF_GRID_IMPORT_ENTITY_ID),
+                        ),
+                        self._entry.options.get(
+                            CONF_GRID_EXPORT_ENTITY_ID,
+                            self._entry.data.get(CONF_GRID_EXPORT_ENTITY_ID),
+                        ),
+                    ),
+                    errors=errors,
                 )
             return self.async_create_entry(title="", data=user_input)
 
