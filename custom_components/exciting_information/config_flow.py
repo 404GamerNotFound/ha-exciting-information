@@ -7,13 +7,26 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.helpers import selector
 
-from .const import CONF_CONSUMPTION, CONF_PV_ENTITY_ID, DEFAULT_CONSUMPTION, DOMAIN
+from .const import (
+    CONF_CONSUMPTION,
+    CONF_GRID_EXPORT_ENTITY_ID,
+    CONF_GRID_IMPORT_ENTITY_ID,
+    CONF_PV_ENTITY_ID,
+    DEFAULT_CONSUMPTION,
+    DOMAIN,
+)
 
 
 def _schema(default_consumption: float) -> vol.Schema:
     return vol.Schema(
         {
             vol.Required(CONF_PV_ENTITY_ID): selector.EntitySelector(
+                selector.EntitySelectorConfig(domain="sensor")
+            ),
+            vol.Optional(CONF_GRID_IMPORT_ENTITY_ID): selector.EntitySelector(
+                selector.EntitySelectorConfig(domain="sensor")
+            ),
+            vol.Optional(CONF_GRID_EXPORT_ENTITY_ID): selector.EntitySelector(
                 selector.EntitySelectorConfig(domain="sensor")
             ),
             vol.Required(CONF_CONSUMPTION, default=default_consumption): selector.NumberSelector(
@@ -29,12 +42,25 @@ def _schema(default_consumption: float) -> vol.Schema:
     )
 
 
-def _options_schema(default_consumption: float, default_pv_entity_id: str) -> vol.Schema:
+def _options_schema(
+    default_consumption: float,
+    default_pv_entity_id: str,
+    default_grid_import_entity_id: str | None,
+    default_grid_export_entity_id: str | None,
+) -> vol.Schema:
     return vol.Schema(
         {
             vol.Optional(CONF_PV_ENTITY_ID, default=default_pv_entity_id): selector.EntitySelector(
                 selector.EntitySelectorConfig(domain="sensor")
             ),
+            vol.Optional(
+                CONF_GRID_IMPORT_ENTITY_ID,
+                default=default_grid_import_entity_id,
+            ): selector.EntitySelector(selector.EntitySelectorConfig(domain="sensor")),
+            vol.Optional(
+                CONF_GRID_EXPORT_ENTITY_ID,
+                default=default_grid_export_entity_id,
+            ): selector.EntitySelector(selector.EntitySelectorConfig(domain="sensor")),
             vol.Required(CONF_CONSUMPTION, default=default_consumption): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=1,
@@ -97,7 +123,20 @@ class ExcitingInformationOptionsFlow(config_entries.OptionsFlow):
         default_pv_entity_id = self._entry.options.get(
             CONF_PV_ENTITY_ID, self._entry.data[CONF_PV_ENTITY_ID]
         )
+        default_grid_import_entity_id = self._entry.options.get(
+            CONF_GRID_IMPORT_ENTITY_ID,
+            self._entry.data.get(CONF_GRID_IMPORT_ENTITY_ID),
+        )
+        default_grid_export_entity_id = self._entry.options.get(
+            CONF_GRID_EXPORT_ENTITY_ID,
+            self._entry.data.get(CONF_GRID_EXPORT_ENTITY_ID),
+        )
         return self.async_show_form(
             step_id="init",
-            data_schema=_options_schema(default_consumption, default_pv_entity_id),
+            data_schema=_options_schema(
+                default_consumption,
+                default_pv_entity_id,
+                default_grid_import_entity_id,
+                default_grid_export_entity_id,
+            ),
         )

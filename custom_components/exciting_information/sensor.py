@@ -13,7 +13,13 @@ from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.util import dt as dt_util
 from homeassistant.util.unit_conversion import EnergyConverter, PowerConverter
 
-from .const import CONF_CONSUMPTION, CONF_PV_ENTITY_ID, DOMAIN
+from .const import (
+    CONF_CONSUMPTION,
+    CONF_GRID_EXPORT_ENTITY_ID,
+    CONF_GRID_IMPORT_ENTITY_ID,
+    CONF_PV_ENTITY_ID,
+    DOMAIN,
+)
 
 MESSAGE_TEMPLATES = {
     "de": (
@@ -49,6 +55,27 @@ METRIC_TEXTS = {
         "fuel_saved_liters": (
             "Das entspricht einer Benzinersparnis von {value:.1f} l bei "
             "{fuel_l_per_100km:.1f} l/100 km."
+        ),
+        "co2_saved_kg": (
+            "Das entspricht etwa {value:.1f} kg CO₂ bei {co2_kg_per_liter:.2f} kg CO₂ pro Liter."
+        ),
+        "self_consumed_kwh": (
+            "Das entspricht etwa {value:.2f} kWh Eigenverbrauch."
+        ),
+        "self_consumption_ratio": (
+            "Das entspricht einer Eigenverbrauchsquote von {value:.1f}%."
+        ),
+        "grid_import_kwh": (
+            "Das entspricht etwa {value:.2f} kWh Netzbezug."
+        ),
+        "grid_export_kwh": (
+            "Das entspricht etwa {value:.2f} kWh Netzeinspeisung."
+        ),
+        "grid_net_kwh": (
+            "Das entspricht einer Netto-Netzenergie von {value:.2f} kWh."
+        ),
+        "autarky_ratio": (
+            "Das entspricht einer Autarkiequote von {value:.1f}%."
         ),
         "lisbon_berlin_trips": (
             "Das entspricht {value:.2f} Fahrten Lissabon–Berlin (≈ {distance_km:.0f} km)."
@@ -129,6 +156,27 @@ METRIC_TEXTS = {
         ),
         "fuel_saved_liters": (
             "That equals fuel savings of {value:.1f} L at {fuel_l_per_100km:.1f} L/100 km."
+        ),
+        "co2_saved_kg": (
+            "That equals about {value:.1f} kg CO₂ at {co2_kg_per_liter:.2f} kg CO₂ per liter."
+        ),
+        "self_consumed_kwh": (
+            "That equals about {value:.2f} kWh self-consumed."
+        ),
+        "self_consumption_ratio": (
+            "That equals a self-consumption rate of {value:.1f}%."
+        ),
+        "grid_import_kwh": (
+            "That equals about {value:.2f} kWh grid import."
+        ),
+        "grid_export_kwh": (
+            "That equals about {value:.2f} kWh grid export."
+        ),
+        "grid_net_kwh": (
+            "That equals net grid energy of {value:.2f} kWh."
+        ),
+        "autarky_ratio": (
+            "That equals an autarky rate of {value:.1f}%."
         ),
         "lisbon_berlin_trips": (
             "That equals {value:.2f} Lisbon–Berlin trips (≈ {distance_km:.0f} km)."
@@ -211,6 +259,27 @@ METRIC_TEXTS = {
             "Cela correspond à une économie d’essence de {value:.1f} L à "
             "{fuel_l_per_100km:.1f} L/100 km."
         ),
+        "co2_saved_kg": (
+            "Cela correspond à environ {value:.1f} kg de CO₂ à {co2_kg_per_liter:.2f} kg de CO₂ par litre."
+        ),
+        "self_consumed_kwh": (
+            "Cela correspond à environ {value:.2f} kWh d’autoconsommation."
+        ),
+        "self_consumption_ratio": (
+            "Cela correspond à un taux d’autoconsommation de {value:.1f}%."
+        ),
+        "grid_import_kwh": (
+            "Cela correspond à environ {value:.2f} kWh importés du réseau."
+        ),
+        "grid_export_kwh": (
+            "Cela correspond à environ {value:.2f} kWh exportés vers le réseau."
+        ),
+        "grid_net_kwh": (
+            "Cela correspond à une énergie nette du réseau de {value:.2f} kWh."
+        ),
+        "autarky_ratio": (
+            "Cela correspond à un taux d’autarcie de {value:.1f}%."
+        ),
         "lisbon_berlin_trips": (
             "Cela correspond à {value:.2f} trajets Lisbonne–Berlin (≈ {distance_km:.0f} km)."
         ),
@@ -292,6 +361,27 @@ METRIC_TEXTS = {
             "Equivale a un risparmio di benzina di {value:.1f} L a "
             "{fuel_l_per_100km:.1f} L/100 km."
         ),
+        "co2_saved_kg": (
+            "Equivale a circa {value:.1f} kg di CO₂ con {co2_kg_per_liter:.2f} kg di CO₂ per litro."
+        ),
+        "self_consumed_kwh": (
+            "Equivale a circa {value:.2f} kWh autoconsumati."
+        ),
+        "self_consumption_ratio": (
+            "Equivale a un tasso di autoconsumo del {value:.1f}%."
+        ),
+        "grid_import_kwh": (
+            "Equivale a circa {value:.2f} kWh importati dalla rete."
+        ),
+        "grid_export_kwh": (
+            "Equivale a circa {value:.2f} kWh esportati verso la rete."
+        ),
+        "grid_net_kwh": (
+            "Equivale a un’energia netta dalla rete di {value:.2f} kWh."
+        ),
+        "autarky_ratio": (
+            "Equivale a un tasso di autosufficienza del {value:.1f}%."
+        ),
         "lisbon_berlin_trips": (
             "Equivale a {value:.2f} viaggi Lisbona–Berlino (≈ {distance_km:.0f} km)."
         ),
@@ -372,6 +462,27 @@ METRIC_TEXTS = {
         "fuel_saved_liters": (
             "Eso equivale a un ahorro de gasolina de {value:.1f} L a "
             "{fuel_l_per_100km:.1f} L/100 km."
+        ),
+        "co2_saved_kg": (
+            "Eso equivale a unos {value:.1f} kg de CO₂ a {co2_kg_per_liter:.2f} kg de CO₂ por litro."
+        ),
+        "self_consumed_kwh": (
+            "Eso equivale a unos {value:.2f} kWh autoconsumidos."
+        ),
+        "self_consumption_ratio": (
+            "Eso equivale a una tasa de autoconsumo del {value:.1f}%."
+        ),
+        "grid_import_kwh": (
+            "Eso equivale a unos {value:.2f} kWh importados de la red."
+        ),
+        "grid_export_kwh": (
+            "Eso equivale a unos {value:.2f} kWh exportados a la red."
+        ),
+        "grid_net_kwh": (
+            "Eso equivale a una energía neta de la red de {value:.2f} kWh."
+        ),
+        "autarky_ratio": (
+            "Eso equivale a una tasa de autosuficiencia del {value:.1f}%."
         ),
         "lisbon_berlin_trips": (
             "Eso equivale a {value:.2f} viajes Lisboa–Berlín (≈ {distance_km:.0f} km)."
@@ -479,6 +590,7 @@ HOT_SHOWER_KWH = 4.5
 MICROWAVE_MEAL_KWH = 0.1
 KETTLE_BOIL_KWH = 0.11
 FUEL_L_PER_100KM = 7.0
+CO2_KG_PER_LITER = 2.31
 
 
 @dataclass(frozen=True)
@@ -506,6 +618,22 @@ class SolarMetrics:
 def _get_language(hass: HomeAssistant) -> str:
     language = hass.config.language or "en"
     return language.split("-")[0]
+
+
+def _get_kwh_from_state(state) -> float | None:
+    if state is None or state.state in ("unknown", "unavailable"):
+        return None
+    try:
+        value = float(state.state)
+    except ValueError:
+        return None
+
+    unit = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
+    if unit in (UnitOfEnergy.KILO_WATT_HOUR, UnitOfEnergy.WATT_HOUR):
+        return EnergyConverter.convert(value, unit, UnitOfEnergy.KILO_WATT_HOUR)
+    if unit in (UnitOfPower.KILO_WATT, UnitOfPower.WATT):
+        return PowerConverter.convert(value, unit, UnitOfPower.KILO_WATT)
+    return value
 
 
 async def async_setup_entry(
@@ -541,6 +669,48 @@ async def async_setup_entry(
         translation_key="fuel_saved_liters",
         icon="mdi:gas-station",
         native_unit_of_measurement="L",
+    )
+    co2_description = SolarDistanceSensorDescription(
+        key="co2_saved_kg",
+        translation_key="co2_saved_kg",
+        icon="mdi:molecule-co2",
+        native_unit_of_measurement="kg",
+    )
+    self_consumed_description = SolarDistanceSensorDescription(
+        key="self_consumed_kwh",
+        translation_key="self_consumed_kwh",
+        icon="mdi:home-lightning-bolt",
+        native_unit_of_measurement="kWh",
+    )
+    self_consumption_ratio_description = SolarDistanceSensorDescription(
+        key="self_consumption_ratio",
+        translation_key="self_consumption_ratio",
+        icon="mdi:percent",
+        native_unit_of_measurement="%",
+    )
+    grid_import_description = SolarDistanceSensorDescription(
+        key="grid_import_kwh",
+        translation_key="grid_import_kwh",
+        icon="mdi:transmission-tower-import",
+        native_unit_of_measurement="kWh",
+    )
+    grid_export_description = SolarDistanceSensorDescription(
+        key="grid_export_kwh",
+        translation_key="grid_export_kwh",
+        icon="mdi:transmission-tower-export",
+        native_unit_of_measurement="kWh",
+    )
+    grid_net_description = SolarDistanceSensorDescription(
+        key="grid_net_kwh",
+        translation_key="grid_net_kwh",
+        icon="mdi:transmission-tower",
+        native_unit_of_measurement="kWh",
+    )
+    autarky_description = SolarDistanceSensorDescription(
+        key="autarky_ratio",
+        translation_key="autarky_ratio",
+        icon="mdi:percent",
+        native_unit_of_measurement="%",
     )
     lisbon_berlin_description = SolarDistanceSensorDescription(
         key="lisbon_berlin_trips",
@@ -689,6 +859,13 @@ async def async_setup_entry(
             SolarEarthRoundsSensor(hass, entry, earth_rounds_description),
             SolarCoffeeSensor(hass, entry, coffee_description),
             SolarFuelSavedSensor(hass, entry, fuel_description),
+            SolarMetricSensor(hass, entry, co2_description),
+            SolarMetricSensor(hass, entry, self_consumed_description),
+            SolarMetricSensor(hass, entry, self_consumption_ratio_description),
+            SolarMetricSensor(hass, entry, grid_import_description),
+            SolarMetricSensor(hass, entry, grid_export_description),
+            SolarMetricSensor(hass, entry, grid_net_description),
+            SolarMetricSensor(hass, entry, autarky_description),
             SolarLisbonBerlinTripsSensor(hass, entry, lisbon_berlin_description),
             SolarNycMexicoTripsSensor(hass, entry, nyc_mexico_description),
             *(SolarMetricSensor(hass, entry, metric) for metric in metric_descriptions),
@@ -712,6 +889,14 @@ class SolarInfoSensor(SensorEntity):
         self._attr_extra_state_attributes: dict[str, Any] = {}
         self._attr_available = False
         self._pv_entity_id = entry.options.get(CONF_PV_ENTITY_ID, entry.data[CONF_PV_ENTITY_ID])
+        self._grid_import_entity_id = entry.options.get(
+            CONF_GRID_IMPORT_ENTITY_ID,
+            entry.data.get(CONF_GRID_IMPORT_ENTITY_ID),
+        )
+        self._grid_export_entity_id = entry.options.get(
+            CONF_GRID_EXPORT_ENTITY_ID,
+            entry.data.get(CONF_GRID_EXPORT_ENTITY_ID),
+        )
         self._consumption = entry.options.get(CONF_CONSUMPTION, entry.data[CONF_CONSUMPTION])
         self._language = _get_language(hass)
         self._unsub = None
@@ -719,9 +904,14 @@ class SolarInfoSensor(SensorEntity):
 
     async def async_added_to_hass(self) -> None:
         """Register callbacks."""
+        entity_ids = [self._pv_entity_id]
+        if self._grid_import_entity_id:
+            entity_ids.append(self._grid_import_entity_id)
+        if self._grid_export_entity_id:
+            entity_ids.append(self._grid_export_entity_id)
         self._unsub = async_track_state_change_event(
             self._hass,
-            [self._pv_entity_id],
+            entity_ids,
             self._handle_state_change,
         )
         self._update_from_state()
@@ -743,26 +933,26 @@ class SolarInfoSensor(SensorEntity):
             self._set_unavailable()
             return
 
-        try:
-            pv_value = float(state.state)
-        except ValueError:
+        pv_kwh = _get_kwh_from_state(state)
+        if pv_kwh is None:
             self._set_unavailable()
             return
 
         unit = state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
-        pv_kwh = None
         source_key = "power"
-
         if unit in (UnitOfEnergy.KILO_WATT_HOUR, UnitOfEnergy.WATT_HOUR):
-            pv_kwh = EnergyConverter.convert(pv_value, unit, UnitOfEnergy.KILO_WATT_HOUR)
             source_key = "energy"
-        elif unit in (UnitOfPower.KILO_WATT, UnitOfPower.WATT):
-            pv_kw = PowerConverter.convert(pv_value, unit, UnitOfPower.KILO_WATT)
-            pv_kwh = pv_kw
-            source_key = "power"
-        else:
-            pv_kwh = pv_value
-            source_key = "power"
+
+        grid_import_kwh = _get_kwh_from_state(
+            self._hass.states.get(self._grid_import_entity_id)
+            if self._grid_import_entity_id
+            else None
+        )
+        grid_export_kwh = _get_kwh_from_state(
+            self._hass.states.get(self._grid_export_entity_id)
+            if self._grid_export_entity_id
+            else None
+        )
 
         template = MESSAGE_TEMPLATES.get(self._language, MESSAGE_TEMPLATES["en"])
         metric_texts = METRIC_TEXTS.get(self._language, METRIC_TEXTS["en"])
@@ -779,6 +969,25 @@ class SolarInfoSensor(SensorEntity):
         fuel_saved_liters = round(distance_value * FUEL_L_PER_100KM / 100, 1)
         lisbon_berlin_trips = round(distance_value / LISBON_BERLIN_KM, 2)
         nyc_mexico_trips = round(distance_value / NEW_YORK_MEXICO_CITY_KM, 2)
+        self_consumed_kwh = (
+            max(pv_kwh - grid_export_kwh, 0) if grid_export_kwh is not None else None
+        )
+        self_consumption_ratio = (
+            (self_consumed_kwh / pv_kwh) * 100
+            if self_consumed_kwh is not None and pv_kwh > 0
+            else None
+        )
+        grid_net_kwh = (
+            (grid_export_kwh or 0) - (grid_import_kwh or 0)
+            if grid_import_kwh is not None or grid_export_kwh is not None
+            else None
+        )
+        autarky_ratio = None
+        if self_consumed_kwh is not None and grid_import_kwh is not None:
+            total_consumption_kwh = self_consumed_kwh + grid_import_kwh
+            if total_consumption_kwh > 0:
+                autarky_ratio = (self_consumed_kwh / total_consumption_kwh) * 100
+
         metric_values = {
             "marathon_equivalents": round(distance_value / MARATHON_KM, 2),
             "berlin_hamburg_trips": round(distance_value / BERLIN_HAMBURG_KM, 2),
@@ -801,6 +1010,21 @@ class SolarInfoSensor(SensorEntity):
             "hot_showers": round(pv_kwh / HOT_SHOWER_KWH, 1),
             "microwave_meals": round(pv_kwh / MICROWAVE_MEAL_KWH, 0),
             "kettle_boils": round(pv_kwh / KETTLE_BOIL_KWH, 0),
+            "co2_saved_kg": round(fuel_saved_liters * CO2_KG_PER_LITER, 1),
+            "self_consumed_kwh": (
+                round(self_consumed_kwh, 2) if self_consumed_kwh is not None else None
+            ),
+            "self_consumption_ratio": (
+                round(self_consumption_ratio, 1) if self_consumption_ratio is not None else None
+            ),
+            "grid_import_kwh": (
+                round(grid_import_kwh, 2) if grid_import_kwh is not None else None
+            ),
+            "grid_export_kwh": (
+                round(grid_export_kwh, 2) if grid_export_kwh is not None else None
+            ),
+            "grid_net_kwh": (round(grid_net_kwh, 2) if grid_net_kwh is not None else None),
+            "autarky_ratio": round(autarky_ratio, 1) if autarky_ratio is not None else None,
         }
         texts = {
             "earth_rounds": metric_texts["earth_rounds"].format(
@@ -814,6 +1038,48 @@ class SolarInfoSensor(SensorEntity):
             "fuel_saved_liters": metric_texts["fuel_saved_liters"].format(
                 value=fuel_saved_liters,
                 fuel_l_per_100km=FUEL_L_PER_100KM,
+            ),
+            "co2_saved_kg": metric_texts["co2_saved_kg"].format(
+                value=metric_values["co2_saved_kg"],
+                co2_kg_per_liter=CO2_KG_PER_LITER,
+            ),
+            "self_consumed_kwh": (
+                metric_texts["self_consumed_kwh"].format(
+                    value=metric_values["self_consumed_kwh"]
+                )
+                if metric_values["self_consumed_kwh"] is not None
+                else None
+            ),
+            "self_consumption_ratio": (
+                metric_texts["self_consumption_ratio"].format(
+                    value=metric_values["self_consumption_ratio"]
+                )
+                if metric_values["self_consumption_ratio"] is not None
+                else None
+            ),
+            "grid_import_kwh": (
+                metric_texts["grid_import_kwh"].format(
+                    value=metric_values["grid_import_kwh"]
+                )
+                if metric_values["grid_import_kwh"] is not None
+                else None
+            ),
+            "grid_export_kwh": (
+                metric_texts["grid_export_kwh"].format(
+                    value=metric_values["grid_export_kwh"]
+                )
+                if metric_values["grid_export_kwh"] is not None
+                else None
+            ),
+            "grid_net_kwh": (
+                metric_texts["grid_net_kwh"].format(value=metric_values["grid_net_kwh"])
+                if metric_values["grid_net_kwh"] is not None
+                else None
+            ),
+            "autarky_ratio": (
+                metric_texts["autarky_ratio"].format(value=metric_values["autarky_ratio"])
+                if metric_values["autarky_ratio"] is not None
+                else None
             ),
             "lisbon_berlin_trips": metric_texts["lisbon_berlin_trips"].format(
                 value=lisbon_berlin_trips,
@@ -928,12 +1194,16 @@ class SolarInfoSensor(SensorEntity):
         self._attr_native_value = None
         self._attr_extra_state_attributes = {
             "pv_entity_id": self._pv_entity_id,
+            "grid_import_entity_id": self._grid_import_entity_id,
+            "grid_export_entity_id": self._grid_export_entity_id,
             "consumption_kwh_per_100km": self._consumption,
         }
 
     def _build_base_attributes(self, metrics: SolarMetrics) -> dict[str, Any]:
         return {
             "pv_entity_id": self._pv_entity_id,
+            "grid_import_entity_id": self._grid_import_entity_id,
+            "grid_export_entity_id": self._grid_export_entity_id,
             "consumption_kwh_per_100km": self._consumption,
             "calculated_at": dt_util.utcnow().isoformat(),
             "pv_energy_kwh": round(metrics.pv_kwh, 3),
@@ -958,12 +1228,24 @@ class SolarMetricSensor(SolarInfoSensor):
         self._attr_unique_id = f"{entry.entry_id}_{self._metric_key}"
 
     def _set_from_metrics(self, metrics: SolarMetrics) -> None:
-        self._attr_native_value = metrics.metric_values[self._metric_key]
+        metric_value = metrics.metric_values[self._metric_key]
+        if metric_value is None:
+            self._attr_native_value = None
+            self._attr_available = False
+            self._attr_extra_state_attributes = {
+                **self._build_base_attributes(metrics),
+            }
+            return
+
+        self._attr_native_value = metric_value
         self._attr_available = True
-        self._attr_extra_state_attributes = {
+        text_value = metrics.texts[self._metric_key]
+        extra_attributes = {
             **self._build_base_attributes(metrics),
-            "text": metrics.texts[self._metric_key],
         }
+        if text_value is not None:
+            extra_attributes["text"] = text_value
+        self._attr_extra_state_attributes = extra_attributes
 
 
 class SolarDistanceSensor(SolarInfoSensor):

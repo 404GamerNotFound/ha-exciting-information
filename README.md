@@ -25,6 +25,8 @@ A Home Assistant custom integration (HACS) that estimates how far an EV could dr
 ## Configuration
 During setup you will be asked for:
 - **PV power/energy entity**: a sensor that reports PV power in kW or energy in kWh.
+- **Grid import energy entity (optional)**: energy imported from the grid (kWh), used for autarky and net grid stats.
+- **Grid export energy entity (optional)**: energy exported to the grid (kWh), used for self-consumption and net grid stats.
 - **EV consumption**: your vehicle's consumption in kWh/100 km.
 
 The sensor computes distance as:
@@ -55,6 +57,13 @@ The integration creates the following sensors (stats). The names are localized i
 | Solar trips around Earth | trips | Distance vs. Earth circumference. |
 | Solar coffee cups | cups | Energy converted to coffee cups. |
 | Solar fuel savings | L | Gasoline saved. |
+| Solar CO2 savings | kg | Estimated CO2 savings based on fuel avoided. |
+| Solar self-consumed energy | kWh | PV energy used directly on-site (requires grid export sensor). |
+| Solar self-consumption rate | % | Self-consumption share of PV (requires grid export sensor). |
+| Grid import energy | kWh | Imported energy from grid (requires grid import sensor). |
+| Grid export energy | kWh | Exported energy to grid (requires grid export sensor). |
+| Net grid energy | kWh | Export minus import (requires grid import/export sensors). |
+| Energy autarky rate | % | Self-sufficiency share of consumption (requires grid import/export sensors). |
 | Solar Lisbon–Berlin trips | trips | Route equivalents. |
 | Solar New York–Mexico City trips | trips | Route equivalents. |
 | Solar marathon equivalents | marathons | Distance equivalents. |
@@ -149,6 +158,20 @@ entities:
     name: Coffee cups
   - entity: sensor.solar_fuel_savings
     name: Fuel savings (L)
+  - entity: sensor.solar_co2_savings
+    name: CO2 savings (kg)
+  - entity: sensor.solar_self_consumed_energy
+    name: Self-consumed energy (kWh)
+  - entity: sensor.solar_self_consumption_rate
+    name: Self-consumption rate (%)
+  - entity: sensor.grid_import_energy
+    name: Grid import (kWh)
+  - entity: sensor.grid_export_energy
+    name: Grid export (kWh)
+  - entity: sensor.net_grid_energy
+    name: Net grid energy (kWh)
+  - entity: sensor.energy_autarky_rate
+    name: Autarky rate (%)
   - entity: sensor.solar_lisbon_berlin_trips
     name: Lisbon–Berlin trips
   - entity: sensor.solar_new_york_mexico_city_trips
