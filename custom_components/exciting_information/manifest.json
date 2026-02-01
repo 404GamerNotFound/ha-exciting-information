@@ -1,6 +1,6 @@
 {
   "domain": "exciting_information",
-  "name": "Exciting Information",
+  "name": "PV Exciting Information",
   "version": "0.1.0",
   "config_flow": true,
   "documentation": "https://github.com/ha-exciting-information/ha-exciting-information",
