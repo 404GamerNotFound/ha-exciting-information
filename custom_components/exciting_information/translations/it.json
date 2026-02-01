@@ -45,6 +45,66 @@
       },
       "nyc_mexico_trips": {
         "name": "Viaggi solari New York–Città del Messico"
+      },
+      "marathon_equivalents": {
+        "name": "Equivalenti maratona solari"
+      },
+      "berlin_hamburg_trips": {
+        "name": "Viaggi Berlino–Amburgo solari"
+      },
+      "munich_hamburg_trips": {
+        "name": "Viaggi Monaco–Amburgo solari"
+      },
+      "paris_lyon_trips": {
+        "name": "Viaggi Parigi–Lione solari"
+      },
+      "london_edinburgh_trips": {
+        "name": "Viaggi Londra–Edimburgo solari"
+      },
+      "rome_milan_trips": {
+        "name": "Viaggi Roma–Milano solari"
+      },
+      "madrid_barcelona_trips": {
+        "name": "Viaggi Madrid–Barcellona solari"
+      },
+      "vienna_prague_trips": {
+        "name": "Viaggi Vienna–Praga solari"
+      },
+      "la_sf_trips": {
+        "name": "Viaggi Los Angeles–San Francisco solari"
+      },
+      "tokyo_osaka_trips": {
+        "name": "Viaggi Tokyo–Osaka solari"
+      },
+      "phone_charges": {
+        "name": "Ricariche telefono solari"
+      },
+      "laptop_charges": {
+        "name": "Ricariche portatile solari"
+      },
+      "led_bulb_hours": {
+        "name": "Ore di LED solari"
+      },
+      "tv_hours": {
+        "name": "Ore di TV solari"
+      },
+      "fridge_days": {
+        "name": "Giorni di frigorifero solari"
+      },
+      "washing_cycles": {
+        "name": "Cicli di lavaggio solari"
+      },
+      "dishwasher_cycles": {
+        "name": "Cicli di lavastoviglie solari"
+      },
+      "hot_showers": {
+        "name": "Docce calde solari"
+      },
+      "microwave_meals": {
+        "name": "Pasti al microonde solari"
+      },
+      "kettle_boils": {
+        "name": "Bolliture bollitore solari"
       }
     }
   }

@@ -45,6 +45,66 @@
       },
       "nyc_mexico_trips": {
         "name": "Solare New York–Mexiko-Stadt-Fahrten"
+      },
+      "marathon_equivalents": {
+        "name": "Solare Marathon-Äquivalente"
+      },
+      "berlin_hamburg_trips": {
+        "name": "Solare Berlin–Hamburg-Fahrten"
+      },
+      "munich_hamburg_trips": {
+        "name": "Solare München–Hamburg-Fahrten"
+      },
+      "paris_lyon_trips": {
+        "name": "Solare Paris–Lyon-Fahrten"
+      },
+      "london_edinburgh_trips": {
+        "name": "Solare London–Edinburgh-Fahrten"
+      },
+      "rome_milan_trips": {
+        "name": "Solare Rom–Mailand-Fahrten"
+      },
+      "madrid_barcelona_trips": {
+        "name": "Solare Madrid–Barcelona-Fahrten"
+      },
+      "vienna_prague_trips": {
+        "name": "Solare Wien–Prag-Fahrten"
+      },
+      "la_sf_trips": {
+        "name": "Solare Los Angeles–San Francisco-Fahrten"
+      },
+      "tokyo_osaka_trips": {
+        "name": "Solare Tokio–Osaka-Fahrten"
+      },
+      "phone_charges": {
+        "name": "Solare Handy-Ladungen"
+      },
+      "laptop_charges": {
+        "name": "Solare Laptop-Ladungen"
+      },
+      "led_bulb_hours": {
+        "name": "Solare LED-Lichtstunden"
+      },
+      "tv_hours": {
+        "name": "Solare TV-Stunden"
+      },
+      "fridge_days": {
+        "name": "Solare Kühlschrank-Tage"
+      },
+      "washing_cycles": {
+        "name": "Solare Waschzyklen"
+      },
+      "dishwasher_cycles": {
+        "name": "Solare Spülmaschinenzyklen"
+      },
+      "hot_showers": {
+        "name": "Solare warme Duschen"
+      },
+      "microwave_meals": {
+        "name": "Solare Mikrowellen-Mahlzeiten"
+      },
+      "kettle_boils": {
+        "name": "Solare Wasserkocher-Vorgänge"
       }
     }
   }
